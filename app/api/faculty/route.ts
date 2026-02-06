@@ -31,6 +31,9 @@ export async function GET(request: NextRequest) {
         const university = searchParams.get('university');
         const department = searchParams.get('department');
         const search = searchParams.get('search');
+        const page = Math.max(1, parseInt(searchParams.get('page') || '1', 10));
+        const limit = Math.min(5000, Math.max(1, parseInt(searchParams.get('limit') || '50', 10)));
+        const offset = (page - 1) * limit;
 
         // Validate search query
         if (search) {
@@ -41,19 +44,20 @@ export async function GET(request: NextRequest) {
             }
         }
 
-        // Build query
-        let query = supabase.from('faculty').select('*');
+        // Build query - include pagination
+        let query = supabase.from('faculty').select('*', { count: 'exact' }).range(offset, offset + limit - 1);
 
         // Apply filters safely
         if (university && university !== 'All' && university.length < 100) {
-            query = query.eq('university', university);
+            query = query.ilike('university', `%${university}%`);
         }
 
         if (department && department !== 'All' && department.length < 100) {
-            query = query.eq('department', department);
+            // Use ILIKE for case-insensitive partial matching
+            query = query.ilike('department', `%${department}%`);
         }
 
-        const { data, error } = await query;
+        const { data, error, count } = await query;
 
         if (error) {
             console.error('Database error:', error);
@@ -72,8 +76,20 @@ export async function GET(request: NextRequest) {
             );
         }
 
+        const totalCount = search ? filteredData.length : (count || filteredData.length);
+        const totalPages = Math.ceil(totalCount / limit);
+
         return NextResponse.json(
-            { data: filteredData },
+            {
+                data: filteredData,
+                pagination: {
+                    page,
+                    limit,
+                    total: totalCount,
+                    pages: totalPages,
+                    hasMore: page < totalPages,
+                },
+            },
             {
                 headers: {
                     'Cache-Control': 'public, max-age=300, s-maxage=3600',
