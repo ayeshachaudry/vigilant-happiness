@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Orbitron } from "next/font/google";
 import "./globals.css";
-import "./aurora.css";
 import Welcome from "../components/Welcome";
 
 const orbitron = Orbitron({

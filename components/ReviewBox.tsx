@@ -62,9 +62,7 @@ export default function ReviewBox({
       // Play appropriate sound and show celebration
       setDone(true);
       try {
-        if (rating === 1) {
-          playFah();
-        } else {
+        if (rating !== 1) {
           playClap();
         }
       } catch (e) {
@@ -117,29 +115,6 @@ export default function ReviewBox({
       osc.connect(g).connect(ctx.destination);
       osc.start(now + 0.18);
       osc.stop(now + 0.55);
-      setCelebrate(true);
-    } catch (e) {
-      console.warn(e);
-    }
-  }
-
-  function playFah() {
-    try {
-      const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
-      const now = ctx.currentTime;
-      const osc = ctx.createOscillator();
-      const g = ctx.createGain();
-      osc.type = "sawtooth";
-      osc.frequency.setValueAtTime(120, now);
-      osc.frequency.exponentialRampToValueAtTime(50, now + 1.2);
-      g.gain.setValueAtTime(0.002, now);
-      g.gain.linearRampToValueAtTime(0.18, now + 0.05);
-      g.gain.linearRampToValueAtTime(0.02, now + 0.9);
-      g.gain.linearRampToValueAtTime(0.0, now + 1.6);
-      osc.connect(g).connect(ctx.destination);
-      osc.start(now);
-      osc.stop(now + 1.6);
-      // brief visual feedback for negative rating
       setCelebrate(true);
     } catch (e) {
       console.warn(e);
