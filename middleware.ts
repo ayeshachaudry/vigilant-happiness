@@ -4,7 +4,6 @@ import type { NextRequest } from 'next/server'
 export function middleware(request: NextRequest) {
   const response = NextResponse.next()
 
-  // ✅ Content Security Policy (Next.js + Supabase + CDN safe)
   const csp = `
     default-src 'self';
     script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net;
@@ -19,10 +18,9 @@ export function middleware(request: NextRequest) {
 
   response.headers.set(
     'Content-Security-Policy',
-    csp.replace(/\n/g, ' ')
+    csp.replace(/\n/g, ' ').trim()
   )
 
-  // ✅ Extra basic security headers (safe on Vercel)
   response.headers.set('X-Frame-Options', 'DENY')
   response.headers.set('X-Content-Type-Options', 'nosniff')
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
@@ -30,7 +28,6 @@ export function middleware(request: NextRequest) {
   return response
 }
 
-// ❗ IMPORTANT: do NOT run middleware on static files
 export const config = {
   matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
 }
