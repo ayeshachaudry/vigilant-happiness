@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
+import { getSupabaseAdmin } from '@/lib/supabase-admin';
 import {
     getClientIp,
     checkRateLimit,
@@ -85,7 +86,10 @@ export async function POST(request: NextRequest) {
             const payload: Record<string, any> = { rating, comment: comment || null };
             payload[col] = facultyId;
 
-            const { data, error } = await supabase.from('reviews').insert(payload).select();
+            // Use server-side service-role client for inserts so we don't expose a privileged key to clients.
+            // Create admin client lazily; this will throw a helpful error if the service role key is missing.
+            const supabaseAdmin = getSupabaseAdmin();
+            const { data, error } = await supabaseAdmin.from('reviews').insert(payload).select();
 
             if (!error) {
                 usedColumn = col;
