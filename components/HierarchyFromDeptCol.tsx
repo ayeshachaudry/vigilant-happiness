@@ -16,7 +16,8 @@ export default function HierarchyFromDeptCol() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        console.log('Supabase client:', { url: supabase.supabaseUrl });
+        // Avoid accessing protected internals of the Supabase client during build
+        console.log('Supabase client initialized, public URL:', process.env.NEXT_PUBLIC_SUPABASE_URL || 'unknown');
     }, []);
 
     const [selectedUni, setSelectedUni] = useState<string | null>(null);
