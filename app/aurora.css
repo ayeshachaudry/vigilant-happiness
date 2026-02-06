@@ -1,0 +1,98 @@
+/* Aurora overlay and welcome styles */
+@keyframes auroraMove {
+    0% {
+        transform: translateX(-30%);
+        opacity: 0.9;
+    }
+
+    50% {
+        transform: translateX(30%);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(-30%);
+        opacity: 0.9;
+    }
+}
+
+.aurora {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 30;
+}
+
+.aurora-layer {
+    position: absolute;
+    width: 140%;
+    height: 40%;
+    left: -20%;
+    top: 10%;
+    filter: blur(44px);
+    opacity: 0.35;
+    transform-origin: center;
+}
+
+.aurora-layer.layer-1 {
+    background: linear-gradient(90deg, rgba(0, 255, 160, 0.18), rgba(0, 200, 120, 0.06));
+    top: 6%;
+    height: 36%;
+    animation: auroraMove 8s ease-in-out infinite;
+}
+
+.aurora-layer.layer-2 {
+    background: linear-gradient(90deg, rgba(60, 255, 140, 0.14), rgba(0, 180, 110, 0.05));
+    top: 26%;
+    height: 40%;
+    animation: auroraMove 10s ease-in-out -2s infinite;
+}
+
+.aurora-layer.layer-3 {
+    background: linear-gradient(90deg, rgba(80, 255, 180, 0.12), rgba(10, 160, 100, 0.04));
+    top: 46%;
+    height: 40%;
+    animation: auroraMove 12s ease-in-out -4s infinite;
+}
+
+.welcome-overlay {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: rgba(0, 0, 0, 0.36);
+    backdrop-filter: blur(6px) saturate(150%);
+    z-index: 40;
+}
+
+.welcome-card {
+    min-width: 340px;
+    max-width: 720px;
+    padding: 28px 36px;
+    text-align: center;
+}
+
+.welcome-title {
+    font-size: 1.9rem;
+    letter-spacing: 0.6px;
+}
+
+.welcome-subtitle {
+    color: rgba(230, 255, 243, 0.9);
+    opacity: 0.9;
+}
+
+.enter-btn {
+    min-width: 120px;
+}
+
+/* Small helper to tint site globally with green overlay when needed */
+.body-aurora-tint::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(600px 300px at 10% 10%, rgba(0, 255, 140, 0.04), transparent 6%), radial-gradient(500px 200px at 90% 80%, rgba(58, 255, 140, 0.03), transparent 5%);
+    pointer-events: none;
+    z-index: 1;
+}

@@ -18,6 +18,7 @@ export default function MagneticCard({
             whileTap={{ scale: 0.97 }}
             onTap={playClick}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            className="futuristic-card rounded-2xl p-2"
         >
             {children}
         </motion.div>

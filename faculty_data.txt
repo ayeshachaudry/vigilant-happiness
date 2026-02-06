@@ -1,0 +1,706 @@
+University : FAST-NUCES
+Campus : Islamabad
+Dr. Hasan Mujtaba | HOD | Artificial Intelligence and Data Science
+Dr. Ahmad Din | Professor | Artificial Intelligence and Data Science
+Dr. Waseem Shahzad | Professor | Artificial Intelligence and Data Science
+Dr. Muhammad Asif Naeem | Professor | Artificial Intelligence and Data Science
+Dr. Mirza Omer Beg | Professor | Artificial Intelligence and Data Science
+Dr. Muhammad Ishfaq | Associate Professor | Artificial Intelligence and Data Science
+Dr. Muhammad Ateeq Yaqoob | Assistant Professor | Artificial Intelligence and Data Science
+Dr. Muhammad Nouman Noor | Assistant Professor | Artificial Intelligence and Data Science
+Dr. Noshina Tariq | Assistant Professor | Artificial Intelligence and Data Science
+Mr. Muhammad Sohail Abbas | Lecturer | Artificial Intelligence and Data Science
+Ms. Saira Qamar | Lecturer | Artificial Intelligence and Data Science
+Mr. Shahbaz Hassan | Lecturer | Artificial Intelligence and Data Science
+Mr. Shoaib Saleem Khattak | Lecturer | Artificial Intelligence and Data Science
+Ms. Umarah Qaseem | Lecturer | Artificial Intelligence and Data Science
+Mr. Usama Imtiaz | Lecturer | Artificial Intelligence and Data Science
+Ms. Zonera Anjum | Lecturer | Artificial Intelligence and Data Science
+Ms. Mariam Bint Imran | Lecturer | Artificial Intelligence and Data Science
+Mr. Abdul Hammad Rasheed | Instructor | Artificial Intelligence and Data Science
+Mr. Adil Majeed | Lecturer | Artificial Intelligence and Data Science
+Mr. Ahmar Raza | Lecturer | Artificial Intelligence and Data Science
+Ms. Arka Atiq | Lecturer | Artificial Intelligence and Data Science
+Ms. Kainat Iqbal | Lecturer | Artificial Intelligence and Data Science
+Ms. Kanza Hamid | Lecturer | Artificial Intelligence and Data Science
+Ms. Naimaib Afzaal | Lecturer | Artificial Intelligence and Data Science
+Ms. Mahnoor Tariq | Lecturer | Artificial Intelligence and Data Science
+Ms. Mehreen Javaid | Lecturer | Artificial Intelligence and Data Science
+Ms. Mohsin Khan | Lecturer | Artificial Intelligence and Data Science
+Mr. Abdul Wahab Khan | Instructor | Artificial Intelligence and Data Science
+Mr. Ali Hamza | Instructor | Artificial Intelligence and Data Science
+Ms. Maryam Hussain | Instructor | Artificial Intelligence and Data Science
+Ms. Mubrra Asma | Instructor | Artificial Intelligence and Data Science
+Mr. Muhammad Ammar Masood | Instructor | Artificial Intelligence and Data Science
+Ms. Nabeelah Maryam | Instructor | Artificial Intelligence and Data Science
+Ms. Palwasha Zahid | Instructor | Artificial Intelligence and Data Science
+Ms. Sidra Fayyaz | Instructor | Artificial Intelligence and Data Science
+Mr. Talha Tariq | Instructor | Artificial Intelligence and Data Science
+
+University : FAST-NUCES
+Campus : Islamabad
+Dr. Muhammad Arshad Islam | Professor | Computer Science
+Dr. Hammad Majeed | Professor | Computer Science
+Dr. Akhtar Jamil | Associate Professor | Computer Science
+Dr. Ahmad Raza Shahid | Professor | Computer Science
+Dr. Danish Shehzad | Associate Professor | Computer Science
+Dr. Imran Ashraf | Associate Professor | Computer Science
+Dr. Ejaz Ahmed | Associate Professor | Computer Science
+Dr. Labiba Fahad | Associate Professor | Computer Science
+Dr. Faisal Cheema | Assistant Professor | Computer Science
+Dr. Mehreen Alam | Assistant Professor | Computer Science
+Dr. Sayed Qaiser Ali Shah | Assistant Professor | Computer Science
+Dr. Ali Zeeshan Ijaz | Assistant Professor | Computer Science
+Dr. Hina Ayaz | Assistant Professor | Computer Science
+Dr. Muhammad Adnan Tariq | Assistant Professor | Computer Science
+Dr. Tajwar Mehmood | Assistant Professor | Computer Science
+Dr. Basharat Hussain | Assistant Professor | Computer Science
+Ms. Amna Irum | Assistant Professor | Computer Science
+Ms. Noor Ul Ain | Assistant Professor | Computer Science
+Mr. Aqib Rehman | Lecturer | Computer Science
+Mr. Fahad Shafique Mirza | Lecturer | Computer Science
+Ms. Hira Mastoor | Lecturer | Computer Science
+Mr. Majid Hussain | Lecturer | Computer Science
+Ms. Marium Hida | Lecturer | Computer Science
+Ms. Maryam Shahbaz | Lecturer | Computer Science
+Mr. Muhammad Aadil Ur Rehman | Lecturer | Computer Science
+Mr. Muhammad Aamir Gulzar | Lecturer | Computer Science
+Mr. Muhammad Almaz Khan | Lecturer | Computer Science
+Mr. Muhammad Farrukh Bashir | Lecturer | Computer Science
+Mr. Muhammad Owais Idrees | Lecturer | Computer Science
+Ms. Nirmal Tariq | Lecturer | Computer Science
+Ms. Rabail Zahid | Lecturer | Computer Science
+Ms. Sana Razzaq | Lecturer | Computer Science
+Mr. Shams Farooq | Lecturer | Computer Science
+Mr. Shehryar Rashid | Lecturer | Computer Science
+Syed Muhammad Aqleem Abbas | Lecturer | Computer Science
+Syed Muhammad Saad Salman | Lecturer | Computer Science
+Ms. Urooj Ghani | Lecturer | Computer Science
+Ms. Bushra Fatima | Lecturer | Computer Science
+Ms. Amina Ashfaq | Instructor | Computer Science
+Ms. Aema Tufail | Instructor | Computer Science
+Ms. Hajira Uzair | Instructor | Computer Science
+Mr. Hamza Mahmood Sheikh | Instructor | Computer Science
+Ms. Laiba Noor | Instructor | Computer Science
+Ms. Maryam Khalid | Instructor | Computer Science
+Mr. Muhammad Ismail | Instructor | Computer Science
+Mr. Muhammad Talha Sharif | Instructor | Computer Science
+Mr. Usama Bin Imran | Instructor | Computer Science
+Mr. Zahoor ul Hassan | Instructor | Computer Science
+Ms. Zille Huma | Instructor | Computer Science
+
+University : FAST-NUCES
+Campus : Islamabad
+Dr. Muhammad Qasiar Shafi | Associate Professor | Cyber Security
+Dr. Muhammad Asim | Professor | Cyber Security
+Dr. Zafar Iqbal Abbasi | Associate Professor | Cyber Security
+Dr. Subhaan Ullah | Associate Professor | Cyber Security
+Dr. Sana Aurangzeb | Assistant Professor | Cyber Security
+Mr. Jawad Hassanali | Assistant Professor | Cyber Security
+Mr. Arslan Aslam | Lecturer | Cyber Security
+Ms. Farheen Tabassum | Lecturer | Cyber Security
+Ms. Hina Binte Haq | Lecturer | Cyber Security
+Mr. Mehmood Ul Hassan | Lecturer | Cyber Security
+Ms. Sadia Saad | Lecturer | Cyber Security
+Mr. Ahsan Shakeel Malik | Instructor | Cyber Security
+Ms. Aneeqa Khalil | Instructor | Cyber Security
+Mr. Muhammad Suleman Saboor | Instructor | Cyber Security
+
+University : FAST-NUCES
+Campus : Islamabad
+Dr. Usman Habib | HOD | Software Engineering
+Dr. Naveed Ahmad | Professor | Software Engineering
+Dr. Atif Aftab Ahmed Jilani | Associate Professor | Software Engineering
+Dr. Asif Muhammad | Assistant Professor | Software Engineering
+Dr. Behjat Zuhaira | Assistant Professor | Software Engineering
+Dr. Isma Ul Hassan | Assistant Professor | Software Engineering
+Dr. Zeshan Khan | Assistant Professor | Software Engineering
+Dr. Shahela Saif | Assistant Professor | Software Engineering
+Dr. Muhammad Bilal | Assistant Professor | Software Engineering
+Dr. Uzma Mahar | Assistant Professor | Software Engineering
+Ms. Anum Kaleem | Lecturer | Software Engineering
+Mr. Bilal Khalid Dar | Lecturer | Software Engineering
+Mr. Irfan Ullah | Lecturer | Software Engineering
+Mr. Junaid Ali Khan | Lecturer | Software Engineering
+Ms. Laiba Imran | Lecturer | Software Engineering
+Ms. Nigar Azhar Butt | Lecturer | Software Engineering
+Pir Sami Ullah Shah | Lecturer | Software Engineering
+Mr. Zaheer ul Hussain Sani | Lecturer | Software Engineering
+Ms. Hifza Umer | Instructor | Software Engineering
+Mr. Muhammad Muneeb Baig | Instructor | Software Engineering
+Ms. Noor Ul Ain | Instructor | Software Engineering
+Syed Daniyal Hussain Shah | Instructor | Software Engineering
+Ms. Zoya Mahboob | Instructor | Software Engineering
+Ms. Zoya Sumbul Zaheer | Instructor | Software Engineering
+
+University : FAST-NUCES
+Campus : Islamabad
+Dr. Muhammad Tariq | HOD | Computer Engineering
+Dr. Muhammad Ibrar Khan | Assistant Professor | Computer Engineering
+Mr. Shahid Qureshi | Assistant Professor | Computer Engineering
+Mr. Shehzad Ahmad | Assistant Professor | Computer Engineering
+Ms. Sana Saleh | Lecturer | Computer Engineering
+Mr. Fasih Ahmad Janjua | Lab Engineer | Computer Engineering
+Ms. Maryam Zafar | Lab Engineer | Computer Engineering
+
+University : FAST-NUCES
+Campus : Islamabad
+Dr. Niaz Ahmed | Associate Professor | Electrical Engineering
+Dr. Mukhtar Ullah | Professor | Electrical Engineering
+Dr. Rashad Ramzan | Professor | Electrical Engineering
+Dr. Ahsan Khalid | Assistant Professor | Electrical Engineering
+Dr. Muhammad Awais | Assistant Professor | Electrical Engineering
+Dr. Irum Saba | Assistant Professor | Electrical Engineering
+Dr. Muhammad Saeed | Assistant Professor | Electrical Engineering
+Dr. Hassan Saif | Assistant Professor | Electrical Engineering
+Dr. Shahzad Saleem | Assistant Professor | Electrical Engineering
+Dr. Aamer Hafeez | Assistant Professor | Electrical Engineering
+Mr. Aamer Munir | Assistant Professor | Electrical Engineering
+Mr. Fakhar Abbas | Lecturer | Electrical Engineering
+Ms. Maria Nasir | Lecturer | Electrical Engineering
+Mr. Muhammad Hammad | Lecturer | Electrical Engineering
+Mr. Abu Bakar | Lab Engineer | Electrical Engineering
+Mr. Hazrat Ali | Lab Engineer | Electrical Engineering
+Mr. Kashif Ullah | Lab Engineer | Electrical Engineering
+Mr. Muhammad Abd Ur Rehman | Lab Engineer | Electrical Engineering
+Ms. Nimra Fatima | Lab Engineer | Electrical Engineering
+Ms. Tooba | Lab Engineer | Electrical Engineering
+Ms. Samreen Arif | Lab Engineer | Electrical Engineering
+
+University : FAST-NUCES
+Campus : Islamabad
+Dr. Falak Khan | Assistant Professor | Accounting and Finance
+Dr. Muhammad Hanif Akhtar | Professor | Accounting and Finance
+Dr. Muhammad Akhtar | Professor | Accounting and Finance
+Dr. Muhammad Yasir | Associate Professor | Accounting and Finance
+Dr. Bilal Saeed | Assistant Professor | Accounting and Finance
+Dr. Rehan Aftab | Assistant Professor | Accounting and Finance
+Dr. Rameeza Andleeb | Assistant Professor | Accounting and Finance
+Dr. Usama Arshad | Assistant Professor | Accounting and Finance
+Ms. Amna Arsalan | Assistant Professor | Accounting and Finance
+Mr. Mehmood Ur Rehman | Lecturer | Accounting and Finance
+Mr. Sajjad Hanif | Lecturer | Accounting and Finance
+Syeda Hoor-ul-ain Ali | Instructor | Accounting and Finance
+Mr. Abdul Mannan | Instructor | Accounting and Finance
+
+University : FAST-NUCES
+Campus : Islamabad
+Dr. Sadia Nadeem | HOD | Management Sciences
+Dr. Aneka Fahima Sufi | Professor | Management Sciences
+Dr. Muhammad Abbas | Professor | Management Sciences
+Dr. Haider Ali | Associate Professor | Management Sciences
+Dr. Abdul Wahab | Assistant Professor | Management Sciences
+Dr. Daniyal Hasan | Assistant Professor | Management Sciences
+Dr. Muhammad Hassaan | Assistant Professor | Management Sciences
+Mr. Muhammad Sarwar | Assistant Professor | Management Sciences
+Dr. Qurrat Ul Ain | Assistant Professor | Management Sciences
+Mr. Adim Kazi | Assistant Professor | Management Sciences
+Mr. Aftab Bhatti | Assistant Professor | Management Sciences
+Mr. Hammad Majeed | Assistant Professor | Management Sciences
+Ms. Sarah Khan | Assistant Professor | Management Sciences
+Mr. Muhammad Bilal Saeed | Assistant Professor | Management Sciences
+Dr. Imran Tariq Chaudhry | Assistant Professor | Management Sciences
+Mr. Muhammad Adeel Anwer | Faculty (Adjunct) | Management Sciences
+Ms. Sidra Abbas | Lecturer | Management Sciences
+Mr. Mansoor Mushtaq | Lecturer | Management Sciences
+Ms. Aamina Mukhtar Sheikh | Lecturer | Management Sciences
+Mr. Muhammad Qaiser Shah | Lecturer | Management Sciences
+Mr. Sajjad Hussain | Lecturer | Management Sciences
+Mr. Abdul Wahab Tahir | Lecturer | Management Sciences
+Ms. Ayesha Yaqoob | Lecturer | Management Sciences
+Mr. Arsalan Khan | Lecturer | Management Sciences
+Ms. Sumaira Ghafoor | Lecturer | Management Sciences
+Syed Muhammad Kashif Raza | Lecturer | Management Sciences
+Ms. Sana Anwar | Lecturer | Management Sciences
+Mr. Faheem ur Rehman | Lecturer | Management Sciences
+Ms. Asma Masood Malik | Lecturer | Management Sciences
+Ms. Hannah Rahat | Instructor | Management Sciences
+Ms. Ridda Fatima | Instructor | Management Sciences
+Mr. Adnan Feroz Rana | Instructor | Management Sciences
+Mr. Ali Hassan | Instructor | Management Sciences
+Mr. Muhammad Imad | Instructor | Management Sciences
+Hafiz Muhammad Awais Riaz | Instructor | Management Sciences
+Mr. Mueed Ahmad | Instructor | Management Sciences
+
+University : FAST-NUCES
+Campus : Islamabad
+Dr. Khadija Farooq | Associate Professor | Sciences and Humanities
+Dr. Muhammad Tayyeb Nadeem | Professor | Sciences and Humanities
+Dr. Muhammad Usman Ashraf | Professor | Sciences and Humanities
+Dr. Syed Irfan Shah | Professor | Sciences and Humanities
+Dr. Hamda Khan | Associate Professor | Sciences and Humanities
+Dr. Muhammad Ali | Associate Professor | Sciences and Humanities
+Dr. Khalil Ullah | Assistant Professor | Sciences and Humanities
+Dr. Rukhsana Parveen | Assistant Professor | Sciences and Humanities
+Dr. Mehwish Hassan | Assistant Professor | Sciences and Humanities
+Dr. Savi Aziz | Assistant Professor | Sciences and Humanities
+Dr. Sehrish Hassan Shigri | Assistant Professor | Sciences and Humanities
+Dr. Sumaira Azhar | Assistant Professor | Sciences and Humanities
+Ms. Aisha Ijaz | Assistant Professor | Sciences and Humanities
+Ms. Memoona Rasool | Assistant Professor | Sciences and Humanities
+Mr. Shahzad Mahmood | Assistant Professor | Sciences and Humanities
+Ms. Aqsa Malik | Lecturer | Sciences and Humanities
+Ms. Faraan Mirza | Lecturer | Sciences and Humanities
+Mr. Faisal Ur Rehman | Lecturer | Sciences and Humanities
+Hafiz Muhammad Hammad | Lecturer | Sciences and Humanities
+Mr. Hazbar Samson | Lecturer | Sciences and Humanities
+Ms. Maria Mazhar | Lecturer | Sciences and Humanities
+Ms. Maryam Abid | Lecturer | Sciences and Humanities
+Mr. Muhammad Ajmal | Lecturer | Sciences and Humanities
+Mr. Muhammad Ibrahim | Lecturer | Sciences and Humanities
+Mr. Muhammad Saqib | Lecturer | Sciences and Humanities
+Mr. Muhammad Usman Rashid | Lecturer | Sciences and Humanities
+Ms. Rabia Islam | Lecturer | Sciences and Humanities
+Raja Hashim Ahmad | Lecturer | Sciences and Humanities
+Ms. Sadia | Lecturer | Sciences and Humanities
+Ms. Sanaa Ilyas | Lecturer | Sciences and Humanities
+Ms. Sumayyah Malik | Lecturer | Sciences and Humanities
+Ms. Sumera Abbas | Lecturer | Sciences and Humanities
+Ms. Hajra Khalid | Lecturer | Sciences and Humanities
+Ms. Tayyaba Waseem | Lecturer | Sciences and Humanities
+Ms. Lubna | Lecturer | Sciences and Humanities
+Ms. Mehreen | Lecturer | Sciences and Humanities
+Mr. Abdul Basit | Instructor | Sciences and Humanities
+Ms. Arisha Wassim | Instructor | Sciences and Humanities
+Ms. Ghalia Gohar | Instructor | Sciences and Humanities
+Ms. Halla Waheed Aziz | Instructor | Sciences and Humanities
+Ms. Humaira Akram | Instructor | Sciences and Humanities
+Ms. Iqra Fatima | Instructor | Sciences and Humanities
+Ms. Momal Saleem | Instructor | Sciences and Humanities
+Ms. Sadia Sahar | Instructor | Sciences and Humanities
+Ms. Zirva Shabbir | Instructor | Sciences and Humanities
+
+University : FAST-NUCES
+Campus : Chiniot-Faisalabad
+Department of Artificial Intelligence and Data Science
+Dr. Adeel Ashraf Cheema | Assistant Professor
+Dr. Anwar Shah | Assistant Professor
+Mr. Asif Ameer | Lecturer
+Mr. Tahir Farooq | Lecturer
+Mr. Hamza Yousuf | Lecturer
+Ms. Rukhsana Zafar | Lecturer
+
+University : FAST-NUCES
+Campus : Chiniot-Faisalabad
+Department of Computer Science
+Dr. Muhammad Fayyaz | Professor
+Dr. Shahzad Sarfraz | Professor
+Dr. Muhammad Umar Aftab | Professor
+Dr. Muhammad Usama | Professor
+Dr. Aniwar Rafiq | Assistant Professor
+Dr. Hashim Yasir | Assistant Professor
+Dr. Uzma Muhammad | Assistant Professor
+Dr. Muhammad Awais Azad | Assistant Professor
+Dr. Chaudhry Usama Ghous | Associate Professor
+Mr. Ahmed Ali | Lecturer
+Mr. Rizwan ul Haq | Lecturer
+Mr. Ali Hamza | Lecturer
+Mr. Ali Raza | Lecturer
+Ms. Azqa Saeed | Lecturer
+Ms. Aqsa Shoukat | Lecturer
+Ms. Ayesha Liaqat | Lecturer
+Ms. Faysal Saad | Lecturer
+Ms. Hafizah Rabia Asif | Lecturer
+Ms. Mahzaib Younas | Lecturer
+Ms. Momna Javaid | Lecturer
+Mr. Mughees Jamil | Lecturer
+Mr. Muhammad Ideel | Lecturer
+Mr. Muhammad Hasnain Farooq | Lecturer
+Mr. Muhammad Usmaah Arshad | Lecturer
+Mr. Muhammad Shahbaz Ayyaz | Lecturer
+Ms. Muskan Aziz | Lecturer
+Mr. Muiz Qadir | Lecturer
+Ms. Nabila Azhar | Lecturer
+Ms. Naereen Akhtar | Lecturer
+Ms. Saba Naseem | Lecturer
+Ms. Samia Mujahid | Lecturer
+Ms. Warda Fatima | Lecturer
+Ms. Avesha Waseem | Lecturer
+Ms. Rabia Anwar | Lecturer
+Ms. Amna Mehmud | Lecturer
+Ms. Gul E Zohra | Lecturer
+Ms. Hassan Ahmed | Lecturer
+Ms. Moham Saleem | Lecturer
+Mr. Muhammad Talha Arif | Instructor
+
+University : FAST-NUCES
+Campus : Chiniot-Faisalabad
+Department of Software Engineering
+Dr. Affan Rauf | Associate Professor
+Dr. Qamar Uz Zaman | Associate Professor
+Dr. Amir Rasheed | Assistant Professor
+Dr. Shamsa Abid | Assistant Professor
+Dr. Sahar Ajmal | Assistant Professor
+Mr. Awais Azam | Lecturer
+Mr. Faiz Zaheer Gorsi | Lecturer
+Ms. Kamwal Naz | Lecturer
+Ms. Naba Rahim | Lecturer
+Ms. Samia Aziz | Lecturer
+Mr. Saqib Ameer | Lecturer
+Mr. Umer Iqbal | Lecturer
+
+University : FAST-NUCES
+Campus : Chiniot-Faisalabad
+Department of Computer Engineering
+Dr. Muhammad Adnan | Assistant Professor
+Dr. Shahzad | Assistant Professor
+Ms. Amna Saghir | Lecturer
+Ms. Dakhtawar Saeed | Lecturer
+Rana Mobeen Tariq | Lecturer
+Ms. Aarsha Nadeem | Lecturer
+
+University : FAST-NUCES
+Campus : Chiniot-Faisalabad
+Department of Electrical Engineering
+Dr. Muhammad Sharib Khalid | Assistant Professor
+Dr. Adnan Azam | Assistant Professor
+Dr. Adeel Feroz | Assistant Professor
+Mr. Irfan Ishaq | Lecturer
+Mr. Muhammad Sajid Iqbal | Lecturer
+Mr. Muhammad Abdullah | Lecturer
+Mr. Muhammad Faisal Hayat | Lecturer
+Hafiz Muhammad Qasim | Lab Engineer
+
+University : FAST-NUCES
+Campus : Chiniot-Faisalabad
+Department of Management Sciences
+Dr. Gulfam Haider | Assistant Professor
+Dr. Muhammad Rafiq | Assistant Professor
+Dr. Arbdish Hayat Bhatti | Assistant Professor
+Dr. Asif Ullah | Assistant Professor
+Dr. Zia Rabia Rahim | Assistant Professor
+Mr. Ahmad Saleh Ud Din | Lecturer
+Ms. Amna Babar Tirmizey | Lecturer
+Mr. Muhammad Nasif | Lecturer
+Hafiz Muhammad Zeeshan Raza | Lecturer
+
+University : FAST-NUCES
+Campus : Chiniot-Faisalabad
+Department of Sciences and Humanities
+Dr. Akhlaaq Ahmad | Assistant Professor
+Dr. Haris Khurram | Assistant Professor
+Dr. Arfan Shahzad | Assistant Professor
+Dr. Fainad Ramzan | Associate Professor
+Ms. Anum Akhtar | Assistant Professor
+Ms. Asadeka Rehan | Lecturer
+Ms. Hadiqal Iqbal | Lecturer
+Mr. Hassan Ali | Lecturer
+Mr. Riyaz Ali | Lecturer
+Mr. Khalid Mehmood Anjum | Lecturer
+Mr. Muhammad Iqbal | Lecturer
+Mr. Muhammad Munawar | Lecturer
+Ms. Rimsha Bashir Awan | Lecturer
+Ms. Sadia Ashfaq | Lecturer
+Ms. Sherwani Azdi | Lecturer
+Ms. Zubaida Mubarak | Lecturer
+Ms. Zartash Haye | Lecturer
+Mr. Abdul Rehman | Lecturer
+Mr. Muhammad Hassnin | Instructor
+Mr. Muhammad Usama Ashfaq | Instructor
+Fazila Nisar | Faculty (Adjunct)
+
+University : FAST-NUCES
+Campus : Lahore
+Department of Artificial Intelligence and Data Science
+Dr. Muhammad Shoaib | HOD
+Dr. Maryam Bashir | Assistant Professor
+Dr. Asma Ahmad Farhan | Associate Professor
+Dr. Haira Waseem | Assistant Professor
+Dr. Mirza Mubasher Baig | Assistant Professor
+Ms. Ansa Liaqat | Lecturer
+Ms. Farha Tur Rabia Babar | Lecturer
+Mr. Ahmad Ul Qudous | Lecturer
+Mr. Muhammad Saif Ul Islam | Lecturer
+Ms. Rushda Muneer | Lecturer
+Ms. Sana Fatima | Lecturer
+Ms. Umm E Ammarah | Lecturer
+Mr. Agib Zeeshan | Instructor
+Mr. Eisha Khan | Instructor
+
+University : FAST-NUCES
+Campus : Lahore
+Department of Civil Engineering
+Dr. Tauqir Ahmed | Professor
+Dr. Shahid Ali | Professor
+Dr. Syed Ali Rizwan Bukhari | Professor
+Dr. Muhammad Umar | Assistant Professor
+Dr. Muhammad Azam | Assistant Professor
+Mr. Ali Raza Khalid | Assistant Professor
+Mr. Muhammad Umar Khan Niazi | Assistant Professor
+Mr. Muhammad Arns Tahir | Lecturer
+Mr. Asim Sharif | Lecturer
+Mr. Fahad Haseeb | Lecturer
+Mr. Hamza Ali | Lecturer
+Ms. Sania Khalid | Lecturer
+Mr. Abu Huraira | Lecturer
+Mr. Abdur Rehman Zahid | Lab Engineer
+Mr. Kashif Hameed | Lab Engineer
+Mr. Muhammad Zaid Bin Shahid | Lab Engineer
+
+University : FAST-NUCES
+Campus : Lahore
+Department of Computer Science
+Dr. Kashif Zafar | HOD
+Dr. Syed Asif Mahmood Gilani | Professor
+Dr. Zareen Alamgir | Professor
+Dr. Safra Karim | Associate Professor
+Dr. Zeeshan Ali Khan | Assistant Professor
+Dr. Muhammad Aasim Qureshi | Assistant Professor
+Dr. Aatira Anum | Assistant Professor
+Dr. Muhammad Ahmad Raza | Assistant Professor
+Dr. Tahir Ejaz | Assistant Professor
+Dr. Syed Mohammad Irteza | Assistant Professor
+Dr. Abdul Qadeer | Assistant Professor
+Dr. Faisal Aslam | Assistant Professor
+Dr. Sobia Tariq Javed | Assistant Professor
+Mr. Aamir Raheem | Assistant Professor
+Ms. Abeeda Akram | Assistant Professor
+Ms. Lehmia Kiran | Assistant Professor
+Ms. Maimoona Akram | Assistant Professor
+Mirza Waqar Baig | Associate Professor
+Mr. Muhammad Ishaq Raza | Assistant Professor
+Mr. Muhammad Waqas Manzoor | Assistant Professor
+Ms. Samin Iftikhar | Assistant Professor
+Ms. Aleena Ahmad | Lecturer
+Mr. Daniyal Farhat | Lecturer
+Ms. Maham Naeem | Lecturer
+Ms. Mamoona Akbar Khan | Lecturer
+Ms. Mariam Nasim | Lecturer
+Ms. Marwa Khan | Lecturer
+Mr. Mubashar Hussain | Lecturer
+Mr. Muhammad Naveed | Lecturer
+Mr. Muhammad Umar Bin Farooq | Lecturer
+Mr. Muhammad Usama Hassan Alvi | Lecturer
+Mr. Muhammad Usman Anwer | Lecturer
+Mr. Muhammad Zeeshan Nazar | Lecturer
+Ms. Namra Absar | Lecturer
+Ms. Rakhshan Imtiaz | Lecturer
+Ms. Rubab Anam Janjua | Lecturer
+Ms. Saba Tariq | Lecturer
+Mr. Sajid Ali Kazmi | Lecturer
+Ms. Seemab Ayub | Lecturer
+Syed Uzair Hussain Naqvi | Lecturer
+Ms. Aqsa Khalid | Lecturer
+Mr. Muhammad Saifullah Tanvir | Lecturer
+Mr. Junaid Hussain Muzammal | Lecturer
+Mr. Nauman Moazzam Hayat | Faculty (Adjunct)
+Mr. Amina Qaiser | Instructor
+Mr. Muhammad Faheem | Instructor
+Mr. Muhammad Hashir Mohsineen | Instructor
+Mr. Muhammad Kamran | Instructor
+Ms. Sukhan Amir | Instructor
+Ms. Zohla Waheed | Instructor
+
+University : FAST-NUCES
+Campus : Lahore
+Department of Cyber Security
+Dr. Arshad Ali | Professor
+Dr. Rashid Abbasi | Associate Professor
+Dr. Ammar Haider | Assistant Professor
+Ms. Nosheen Manzoor | Lecturer
+Mr. Ahmad Jawad Murtasim | Instructor
+
+University : FAST-NUCES
+Campus : Lahore
+Department of Software Engineering
+Dr. Zeeshan Ali Rana | Associate Professor
+Dr. Ali Afzal Malik | Associate Professor
+Dr. Farooq Ahmad | Assistant Professor
+Ms. Anosha Khan | Lecturer
+Ms. Arooj Khalil | Lecturer
+Ms. Hira Iqbal | Lecturer
+Ms. Mamoona Majid | Lecturer
+Ms. Mehroze Khan | Lecturer
+Ms. Momna Zaneb | Lecturer
+Mr. Raziuddin | Lecturer
+Mr. Waqas Ali | Lecturer
+Mr. Durraze Waseem | Instructor
+Mr. Muhammad Hasan | Instructor
+Mr. Muhammad Amir Iqbal | Instructor
+
+University : FAST-NUCES
+Campus : Lahore
+Department of Electrical Engineering
+Dr. Saima Zafar | Assistant Professor
+Dr. S.M. Sajid | Professor
+Dr. Omer Saleem Bhatti | Associate Professor
+Dr. Afzal Ahmed | Assistant Professor
+Dr. Kashif Saeed | Assistant Professor
+Dr. Muhammad Akmal | Assistant Professor
+Dr. Muhammad Naeem | Assistant Professor
+Ms. Reenish Fatima | Assistant Professor
+Mr. M. Abdul Majid | Assistant Professor
+Mr. Mohsin Yousuf | Lecturer
+Ms. Shayza Haque | Assistant Professor
+Syed Haris Mujtaba | Assistant Professor
+Ms. Tamania Javaid | Lecturer
+Ms. Abeer Bashir | Lecturer
+Mr. Ahmad Hamza Nayyar | Lecturer
+Ms. Akbare Yaqub | Lecturer
+Ms. Aroosa Umair | Lecturer
+Ms. Khalid Ijaz | Lecturer
+Mr. Muhammad Umer Altaf | Lecturer
+Ms. Sara Kiran | Lecturer
+Syed Muhammad Ismail | Lecturer
+Mr. Usama Faiz | Lecturer
+Ms. Alisha Tanveer | Lab Engineer
+Ms. Eman Dar | Lab Engineer
+Hafiz Muhammad Muiz Malik | Lab Engineer
+Ms. Haniya Waheed | Lab Engineer
+Syeda Sughra Kamran | Lab Engineer
+
+University : FAST-NUCES
+Campus : Lahore
+Department of Accounting and Finance
+Dr. Mian Muhammad Atif | Assistant Professor
+Dr. Zia Ullah Khan | Associate Professor
+Dr. Muhammad Wasif Zafar | Assistant Professor
+Mr. Aamer Allauddin | Assistant Professor
+Mr. Shakeel Ahmad | Assistant Professor
+Ms. Aroosa Safdar | Lecturer
+Mr. Muhammad Mobeen Ajmal | Lecturer
+Ms. Sidra Salman | Lecturer
+Ms. Noor Zahid | Lecturer
+Ms. Ghulam Fatima | Lecturer
+Ms. Zunaira Ahmed | Lecturer
+Ms. Alishba Nisar | Instructor
+Ms. Saleema Gul | Faculty (Adjunct)
+Ms. Attiqa Sohail | Instructor
+Ms. Fatima Zeb | Instructor
+Syeda Fatima Jaffery | Instructor
+
+University : FAST-NUCES
+Campus : Lahore
+Department of Management Sciences
+Dr. Hamid Hassan | Professor
+Dr. Akbar Azam | Associate Professor
+Dr. Muntaza Saeed | Associate Professor
+Dr. Mujahid Hussain | Assistant Professor
+Dr. Komal Kamran | Assistant Professor
+Dr. Saif Maqbool | Assistant Professor
+Dr. Beenish Arshad | Assistant Professor
+Dr. Fatima Omer | Assistant Professor
+Ms. Aiza Ahtsb | Lecturer
+Mr. Bilal Qaisar | Lecturer
+Ms. Fatima Habib | Lecturer
+Ms. Iman Ilyas | Lecturer
+Ms. Nisal Hasan | Lecturer
+Mr. Salman Khalil Rahman | Lecturer
+Ms. Sadia Manzoor | Instructor
+Ms. Syeda Fatima Naqvi | Instructor
+
+University : FAST-NUCES
+Campus : Lahore
+Department of Sciences and Humanities
+Dr. Mubashir Qayyum | Professor
+Dr. Sawood Aftrey | Professor
+Dr. Ashfaq Ahmad Bhatti | Assistant Professor
+Dr. Mazhar Hussain | Professor
+Ms. Nida Ali | Professor
+Dr. Saeeda Zia | Assistant Professor
+Dr. Hina Firdous | Assistant Professor
+Dr. Muhammad Bilal Rashid | Assistant Professor
+Dr. Sara Khan | Assistant Professor
+Dr. Tayyaba Naz | Assistant Professor
+Dr. Zahida Munsif | Assistant Professor
+Dr. Iram Amjad | Assistant Professor
+Dr. Abdul Sattar | Assistant Professor
+Ms. Hajra Ikram | Assistant Professor
+Mr. Muhammad Zulfiqar Ali | Lecturer
+Ms. Aisha Bano | Lecturer
+Ms. Aqsa Naz | Lecturer
+Hafiz Muhammad Hamza Janjua | Lecturer
+Hafiza Qurat ul Ain Fatima | Lecturer
+Ms. Kamal Saleem | Lecturer
+Ms. Mahnoor Chaudhry | Lecturer
+Mr. Muhammad Yaseen | Lecturer
+Ms. Muznah Saleha | Lecturer
+Ms. Nokhaiz Zahra | Lecturer
+Mr. Raam-uz-Zafar | Lecturer
+Ms. Rubab Arshad | Lecturer
+Ms. Sarah Ahmad | Lecturer
+
+University : FAST-NUCES
+Campus : Peshawar
+Department of Computer Science
+Dr. Qaiser Abbas | Assistant Professor
+Dr. Omar Usman Khan | Professor
+Dr. Muhammad Tahir | Professor
+Dr. Nouman Azam | Associate Professor
+Dr. Hafeez Anwar | Assistant Professor
+Dr. Bilal Jan | Associate Professor
+Dr. Muhammad Amin | Assistant Professor
+Dr. Ali Sayyad | Assistant Professor
+Dr. Bilal Khan | Assistant Professor
+Dr. Ghazanfar Latif | Assistant Professor
+Dr. Usman Ali Shah | Assistant Professor
+Mr. Ezat-e-Basit | Assistant Professor
+Mr. Shoaib Muhammad Khan | Assistant Professor
+Mr. Muhammad Umer Haroon | Lecturer
+Mr. Muhammad Zulqarnain | Lecturer
+Mr. Samin Ahmed | Lecturer
+Ms. Sanaa Jashan | Lecturer
+Ms. Sara Rehmat | Lecturer
+Mr. Shahzeb Khan | Lecturer
+Mr. Usama Musharaf | Lecturer
+Mr. Usman Wajid | Lecturer
+Mr. Hamza Raziq Khan | Instructor
+Ms. Iqra Rehman | Instructor
+Mr. Muhammad Saad Khan | Instructor
+Mr. Muhammad Saad Rashad | Instructor
+Mr. Muhammad Saood Sarwar | Instructor
+Mr. Sajid Ahmad | Instructor
+Mr. Yasir Arfat | Instructor
+Mr. Zakria Bacha | Instructor
+Syed Behram Shah | Instructor
+Mr. Muhammad Mehdi | Instructor
+
+University : FAST-NUCES
+Campus : Peshawar
+Department of Computer Engineering
+Dr. Suleman Shahid | Associate Professor
+Dr. Masood Muhammad Khan | Associate Professor
+Mr. Muhammad Usman Malik | Lecturer
+Ms. Arshi Parvaiz | Lecturer
+Ms. Anam Rashad | Lab Engineer
+Mr. Kashif Javed | Lab Engineer
+Mr. Muhammad Qasim | Lab Engineer
+Mr. Muhammad Hassaan Bin Shoukat | Lab Engineer
+
+University : FAST-NUCES
+Campus :Peshawar
+Department of Electrical Engineering
+Dr. Muhammad Usman Abbasi | Associate Professor
+Dr. Syed Kamran Ali Khan | Assistant Professor
+Mr. Maneeb Sohail | Lab Engineer
+Mr. Hussam Ullah | Lab Engineer
+
+University : FAST-NUCES
+Campus : Peshawar
+Department of Sciences and Humanities
+Dr. Akbar Ali | Associate Professor
+Dr. Shams Ul Arfeen | Associate Professor
+Dr. Hafeezur Rehman | Assistant Professor
+Dr. Noreen Shah | Associate Professor
+Mr. Abdul Basit Khan | Lecturer
+Ms. Hafsa | Lecturer
+Ms. Maryam Ali Khan | Lecturer
+Ms. Rabia Zia | Lecturer
+Mr. Sami Ullah | Lecturer
+Syed Muhammad Ammar | Lecturer
+Mr. Ansar Rehman | Lecturer
+Mr. Mubashir Basharat Ellahi | Lecturer
+Mr. Shahzad Hassan | Instructor
+
+University : FAST-NUCES
+Campus : Multan
+Department of Computer Science
+Dr. Shahzad Sarfraz | Professor
+Dr. Hassan Raza | Assistant Professor
+Dr. Muhammad Usman | Assistant Professor
+Mr. Nouman Iftikhar | Assistant Professor
+Mr. Muhammad Shoaib | Lecturer
+Mr. Habib Ali Kalohar | Lecturer
+Ms. Kashaf Shakoor | Lecturer
+Mr. Ahmad Ali Tabassam | Lecturer
+Ms. Farwa Ahmad | Lecturer
