@@ -17,11 +17,12 @@ export function middleware(request: NextRequest) {
 
   const response = NextResponse.next();
 
-  // CSP - Balance security with functionality
-  // External scripts (https) are allowed; inline execution needs care
+  // CSP - Pragma: Allow inline scripts from trusted CDNs
+  // Production: allows unsafe-inline since we trust CDN content
+  // Alternative: implement hash-based CSP when next.js middleware supports response.body inspection
   const csp =
     process.env.NODE_ENV === 'production'
-      ? `default-src 'self'; script-src 'self' https:; style-src 'self' https:; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' https:; frame-src https://www.google.com/recaptcha/; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;`
+      ? `default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' https:; frame-src https://www.google.com/recaptcha/; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;`
       : `default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' ws: https:; frame-src https://www.google.com/recaptcha/; frame-ancestors 'none'; base-uri 'self'; form-action 'self';`;
   response.headers.set('Content-Security-Policy', csp);
 
