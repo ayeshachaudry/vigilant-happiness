@@ -6,9 +6,14 @@ Includes university and campus information
 
 from supabase import create_client, Client
 import time
+import os
 
-SUPABASE_URL = "https://clezlbmuxxodgytorlrf.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNsZXpsYm11eHhvZGd5dG9ybHJmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk3MTQ3NzUsImV4cCI6MjA4NTI5MDc3NX0.jIxtUwgfc1PGC1YuMezgQMn79JtPx6vx__FrwhAUh5c"
+# Read Supabase credentials from environment variables. Do NOT commit keys.
+SUPABASE_URL = os.environ.get('SUPABASE_URL')
+SUPABASE_KEY = os.environ.get('SUPABASE_KEY')
+
+if not SUPABASE_URL or not SUPABASE_KEY:
+    raise SystemExit("Supabase credentials not found. Set SUPABASE_URL and SUPABASE_KEY environment variables before running this script.")
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 

@@ -6,9 +6,14 @@ Includes all designations (HOD, Professor, Associate Professor, etc.)
 
 from supabase import create_client, Client
 import time
+import os
 
-SUPABASE_URL = "https://tpzptwmnpewiuzwfwdex.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRwenB0d21ucGV3aXV6d2Z3ZGV4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAzODUxOTQsImV4cCI6MjA4NTk2MTE5NH0.ycHWTxGw5bVuN5Q8oIFqXPhojQA0MHTyRbD0CRj52dk"
+# Read Supabase credentials from environment variables. Do NOT commit keys.
+SUPABASE_URL = os.environ.get('SUPABASE_URL')
+SUPABASE_KEY = os.environ.get('SUPABASE_KEY')
+
+if not SUPABASE_URL or not SUPABASE_KEY:
+    raise SystemExit("Supabase credentials not found. Set SUPABASE_URL and SUPABASE_KEY environment variables before running this script.")
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 

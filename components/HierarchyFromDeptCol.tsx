@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 
 interface FacultyRow {
@@ -154,10 +155,12 @@ export default function HierarchyFromDeptCol() {
                 {selectedDept ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {currentInstructors.map((ins, idx) => (
-                            <div key={ins.id || idx} className="p-4 rounded futuristic-card">
-                                <p className="font-semibold text-[var(--foreground)]">{ins.name}</p>
-                                <p className="text-sm text-gray-300">{ins.designation}</p>
-                            </div>
+                            <Link href={`/faculty/${ins.id}`} key={ins.id || idx}>
+                                <div className="p-4 rounded futuristic-card cursor-pointer hover:opacity-80 transition-opacity">
+                                    <p className="font-semibold text-[var(--foreground)]">{ins.name}</p>
+                                    <p className="text-sm text-gray-300">{ins.designation}</p>
+                                </div>
+                            </Link>
                         ))}
                     </div>
                 ) : (

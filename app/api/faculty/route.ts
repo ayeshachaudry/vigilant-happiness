@@ -1,35 +1,30 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
-import { rateLimit } from '@/lib/rateLimit';
+import {
+    getClientIp,
+    checkRateLimit,
+    detectReplayAttack,
+    validateJsonPayload,
+    rateLimitResponse,
+    badRequestResponse,
+    logSecurityEvent,
+} from '@/lib/ddos-protection';
 import { validateSearchQuery } from '@/lib/validation';
-
-// Helper to extract client IP securely
-function getClientIp(request: NextRequest): string {
-    const forwardedFor = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim();
-    if (forwardedFor && isValidIp(forwardedFor)) return forwardedFor;
-
-    const realIp = request.headers.get('x-real-ip')?.trim();
-    if (realIp && isValidIp(realIp)) return realIp;
-
-    console.warn('[Security] Could not determine client IP from headers');
-    return 'unknown';
-}
-
-function isValidIp(ip: string): boolean {
-    const ipv4Regex = /^(\d{1,3}\.){3}\d{1,3}$/;
-    const ipv6Regex = /^([a-f0-9]{0,4}:){2,7}[a-f0-9]{0,4}$/i;
-    return ipv4Regex.test(ip) || ipv6Regex.test(ip);
-}
 
 export async function GET(request: NextRequest) {
     try {
-        // Rate limiting - Extract real IP securely
         const ip = getClientIp(request);
-        if (!rateLimit(ip, 300, 3600000)) { // 300 requests per hour
-            return NextResponse.json(
-                { error: 'Rate limit exceeded' },
-                { status: 429 }
-            );
+
+        // Rate limiting (stricter for search/list operations)
+        const rateCheck = checkRateLimit(ip, {
+            maxRequests: 200,
+            windowMs: 60000,
+            blockDurationMs: 300000,
+        });
+
+        if (!rateCheck.allowed) {
+            logSecurityEvent('Rate limit exceeded', ip, { endpoint: '/api/faculty' });
+            return rateLimitResponse(rateCheck.remaining, rateCheck.resetTime);
         }
 
         const { searchParams } = new URL(request.url);
@@ -37,15 +32,24 @@ export async function GET(request: NextRequest) {
         const department = searchParams.get('department');
         const search = searchParams.get('search');
 
+        // Validate search query
+        if (search) {
+            const validation = validateSearchQuery(search);
+            if (!validation.valid) {
+                logSecurityEvent('Invalid search query', ip, { reason: validation.error });
+                return badRequestResponse(validation.error || 'Invalid search');
+            }
+        }
+
         // Build query
         let query = supabase.from('faculty').select('*');
 
-        // Apply filters
-        if (university && university !== 'All') {
+        // Apply filters safely
+        if (university && university !== 'All' && university.length < 100) {
             query = query.eq('university', university);
         }
 
-        if (department && department !== 'All') {
+        if (department && department !== 'All' && department.length < 100) {
             query = query.eq('department', department);
         }
 
@@ -53,33 +57,33 @@ export async function GET(request: NextRequest) {
 
         if (error) {
             console.error('Database error:', error);
-            return NextResponse.json(
-                { error: 'Failed to fetch faculty' },
-                { status: 500 }
+            return NextResponse.json({ error: 'Failed to fetch faculty' }, { status: 500 });
+        }
+
+        // Client-side search for additional filtering
+        let filteredData = data || [];
+        if (search) {
+            const queryLower = search.toLowerCase();
+            filteredData = filteredData.filter(
+                (faculty: any) =>
+                    faculty.name?.toLowerCase().includes(queryLower) ||
+                    faculty.designation?.toLowerCase().includes(queryLower) ||
+                    faculty.department?.toLowerCase().includes(queryLower)
             );
         }
 
-        // Client-side search for flexibility (validate first)
-        let filteredData = data || [];
-        if (search) {
-            const validation = validateSearchQuery(search);
-            if (validation.valid) {
-                const query = search.toLowerCase();
-                filteredData = filteredData.filter(
-                    (faculty: any) =>
-                        faculty.name?.toLowerCase().includes(query) ||
-                        faculty.designation?.toLowerCase().includes(query) ||
-                        faculty.department?.toLowerCase().includes(query)
-                );
+        return NextResponse.json(
+            { data: filteredData },
+            {
+                headers: {
+                    'Cache-Control': 'public, max-age=300, s-maxage=3600',
+                    'X-RateLimit-Remaining': rateCheck.remaining.toString(),
+                },
             }
-        }
-
-        return NextResponse.json({ data: filteredData });
+        );
     } catch (error) {
         console.error('API error:', error);
-        return NextResponse.json(
-            { error: 'Internal server error' },
-            { status: 500 }
-        );
+        return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
     }
 }
+

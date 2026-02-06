@@ -4,3 +4,7 @@ node_modules
 .next
 dist
 node_modules
+/.venv
+venv/
+__pycache__/
+*.pyc

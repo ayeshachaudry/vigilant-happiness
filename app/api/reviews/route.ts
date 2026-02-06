@@ -1,59 +1,78 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
-import { rateLimit } from '@/lib/rateLimit';
+import {
+    getClientIp,
+    checkRateLimit,
+    detectReplayAttack,
+    validateJsonPayload,
+    rateLimitResponse,
+    badRequestResponse,
+    logSecurityEvent,
+    isValidIp,
+} from '@/lib/ddos-protection';
 import { validateReviewInput, validateFacultyId } from '@/lib/validation';
-
-// Helper to extract client IP securely
-function getClientIp(request: NextRequest): string {
-    // Try multiple header sources, take the first (most trusted)
-    const forwardedFor = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim();
-    if (forwardedFor && isValidIp(forwardedFor)) return forwardedFor;
-
-    const realIp = request.headers.get('x-real-ip')?.trim();
-    if (realIp && isValidIp(realIp)) return realIp;
-
-    // Fallback - use consistent identifier but log warning
-    console.warn('[Security] Could not determine client IP from headers');
-    return 'unknown';
-}
-
-function isValidIp(ip: string): boolean {
-    // Simple IPv4/IPv6 validation
-    const ipv4Regex = /^(\d{1,3}\.){3}\d{1,3}$/;
-    const ipv6Regex = /^([a-f0-9]{0,4}:){2,7}[a-f0-9]{0,4}$/i;
-    return ipv4Regex.test(ip) || ipv6Regex.test(ip);
-}
+import crypto from 'crypto';
 
 export async function POST(request: NextRequest) {
     try {
-        // Rate limiting - Extract real IP securely
         const ip = getClientIp(request);
-        if (!rateLimit(ip, 50, 3600000)) { // 50 requests per hour
-            return NextResponse.json(
-                { error: '⚠️ This website is for reviewing teachers, not taking out your personal grudges on them. Please wait before submitting another review.' },
-                { status: 429 }
-            );
+
+        // Validate IP format
+        if (!isValidIp(ip)) {
+            logSecurityEvent('Invalid IP detected', ip, { endpoint: '/api/reviews', method: 'POST' });
+            return badRequestResponse('Invalid request');
         }
 
+        // Stricter rate limiting for write operations (10 requests per hour per IP)
+        const rateCheck = checkRateLimit(ip, {
+            maxRequests: 10,
+            windowMs: 3600000, // 1 hour
+            blockDurationMs: 900000, // 15 minute block
+        });
+
+        if (!rateCheck.allowed) {
+            logSecurityEvent('Rate limit exceeded on POST /api/reviews', ip, {
+                remaining: rateCheck.remaining,
+            });
+            return rateLimitResponse(rateCheck.remaining, rateCheck.resetTime);
+        }
+
+        // Read and hash request body for replay attack detection
         const body = await request.json();
+        const bodyHash = crypto
+            .createHash('sha256')
+            .update(JSON.stringify(body))
+            .digest('hex');
+
+        // Detect replay attacks
+        if (detectReplayAttack(ip, '/api/reviews', bodyHash)) {
+            logSecurityEvent('Potential replay attack detected', ip, { endpoint: '/api/reviews' });
+            return badRequestResponse('Duplicate request detected');
+        }
+
+        // Validate payload size and structure
+        const validation = validateJsonPayload(body, 5120); // 5KB limit
+        if (!validation.valid) {
+            logSecurityEvent('Invalid payload', ip, { reason: validation.reason });
+            return badRequestResponse(validation.reason || 'Invalid payload');
+        }
+
         const { facultyId, rating, comment } = body;
 
         // Validate faculty ID
         const idValidation = validateFacultyId(facultyId);
         if (!idValidation.valid) {
-            return NextResponse.json(
-                { error: idValidation.error },
-                { status: 400 }
-            );
+            logSecurityEvent('Invalid faculty ID', ip, { facultyId });
+            return NextResponse.json({ error: idValidation.error }, { status: 400 });
         }
 
         // Validate review input (includes banned words check)
-        const validation = validateReviewInput(rating, comment || '');
-        if (!validation.valid) {
-            return NextResponse.json(
-                { error: validation.error },
-                { status: 400 }
-            );
+        const reviewValidation = validateReviewInput(rating, comment || '');
+        if (!reviewValidation.valid) {
+            logSecurityEvent('Invalid review input', ip, {
+                reason: reviewValidation.error,
+            });
+            return NextResponse.json({ error: reviewValidation.error }, { status: 400 });
         }
 
         // Attempt insertion trying both possible column names to handle schema typo
@@ -79,80 +98,111 @@ export async function POST(request: NextRequest) {
             const errMsg = String((error as any)?.message || '').toLowerCase();
             const errDetails = String((error as any)?.details || '').toLowerCase();
 
-            // If RLS prevented the request, return immediately with helpful message
+            // If RLS prevented the request, return immediately
             if (errMsg.includes('row level security') || errDetails.includes('row level security')) {
                 console.error('RLS blocked insert:', error);
+                logSecurityEvent('RLS blocked review insert', ip, { facultyId });
                 if (process.env.NODE_ENV !== 'production') {
-                    return NextResponse.json({ error: 'Row level security prevented the request', details: (error as any)?.message || null, hint: (error as any)?.details || null }, { status: 500 });
+                    return NextResponse.json(
+                        {
+                            error: 'Row level security prevented the request',
+                            details: (error as any)?.message || null,
+                            hint: (error as any)?.details || null,
+                        },
+                        { status: 500 }
+                    );
                 }
                 return NextResponse.json({ error: 'Failed to submit review' }, { status: 500 });
             }
 
             // If the error indicates a missing column, try the next candidate
-            if (errMsg.includes('column') || (error as any)?.code === '42703' || errDetails.includes('column')) {
-                console.warn(`Column ${col} not usable, trying next candidate if any.`);
+            if (
+                errMsg.includes('column') ||
+                (error as any)?.code === '42703' ||
+                errDetails.includes('column')
+            ) {
+                console.warn(`Column ${col} not usable, trying next candidate.`);
                 continue;
             }
 
-            // Any other error - stop and return it
+            // Any other error - stop and return
             console.error('Database error on insert attempt:', error);
+            logSecurityEvent('Database error on review insert', ip, {
+                error: (error as any)?.message,
+            });
             if (process.env.NODE_ENV !== 'production') {
-                return NextResponse.json({ error: 'Failed to submit review', details: (error as any)?.message || null, hint: (error as any)?.details || null }, { status: 500 });
+                return NextResponse.json(
+                    {
+                        error: 'Failed to submit review',
+                        details: (error as any)?.message || null,
+                        hint: (error as any)?.details || null,
+                    },
+                    { status: 500 }
+                );
             }
             return NextResponse.json({ error: 'Failed to submit review' }, { status: 500 });
         }
 
         if (!usedColumn) {
-            // Nothing succeeded
-            try {
-                console.error('Insert failed for all candidate columns:', JSON.stringify(lastError, Object.getOwnPropertyNames(lastError)));
-            } catch (e) {
-                console.error('Insert failed (stringify failed):', lastError);
-            }
+            console.error('Insert failed for all candidate columns:', lastError);
+            logSecurityEvent('Insert failed for all columns', ip, { facultyId });
             if (process.env.NODE_ENV !== 'production') {
-                return NextResponse.json({ error: 'Failed to submit review', details: (lastError as any)?.message || null, hint: (lastError as any)?.details || null }, { status: 500 });
+                return NextResponse.json(
+                    {
+                        error: 'Failed to submit review',
+                        details: (lastError as any)?.message || null,
+                        hint: (lastError as any)?.details || null,
+                    },
+                    { status: 500 }
+                );
             }
             return NextResponse.json({ error: 'Failed to submit review' }, { status: 500 });
         }
 
         console.log(`Inserted review using column: ${usedColumn}`);
-        return NextResponse.json({ success: true, data: insertedData, usedColumn }, { status: 201 });
+        return NextResponse.json(
+            { success: true, data: insertedData, usedColumn },
+            { status: 201 }
+        );
     } catch (error) {
         console.error('API error:', error);
-        return NextResponse.json(
-            { error: 'Internal server error' },
-            { status: 500 }
-        );
+        const ip = getClientIp(request);
+        logSecurityEvent('Unhandled error in POST /api/reviews', ip, {
+            error: String(error),
+        });
+        return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
     }
 }
 
 export async function GET(request: NextRequest) {
     try {
-        // Rate limiting for read operations
         const ip = getClientIp(request);
-        if (!rateLimit(ip, 200, 3600000)) { // 200 requests per hour
-            return NextResponse.json(
-                { error: 'Rate limit exceeded' },
-                { status: 429 }
-            );
+
+        // Rate limiting for read operations (100 requests per hour)
+        const rateCheck = checkRateLimit(ip, {
+            maxRequests: 100,
+            windowMs: 3600000,
+            blockDurationMs: 600000,
+        });
+
+        if (!rateCheck.allowed) {
+            logSecurityEvent('Rate limit exceeded on GET /api/reviews', ip, {
+                remaining: rateCheck.remaining,
+            });
+            return rateLimitResponse(rateCheck.remaining, rateCheck.resetTime);
         }
 
         const { searchParams } = new URL(request.url);
         const facultyId = searchParams.get('facultyId');
 
         if (!facultyId) {
-            return NextResponse.json(
-                { error: 'Faculty ID is required' },
-                { status: 400 }
-            );
+            return NextResponse.json({ error: 'Faculty ID is required' }, { status: 400 });
         }
 
         const idValidation = validateFacultyId(facultyId);
         if (!idValidation.valid) {
-            return NextResponse.json(
-                { error: idValidation.error },
-                { status: 400 }
-            );
+            logSecurityEvent('Invalid faculty ID in GET', ip, { facultyId });
+            return NextResponse.json({ error: idValidation.error }, { status: 400 });
         }
 
         // Try selecting by either `faculty_id` or the typo `facult_id` if needed
@@ -180,39 +230,76 @@ export async function GET(request: NextRequest) {
 
             if (errMsg.includes('row level security') || errDetails.includes('row level security')) {
                 console.error('RLS blocked select:', error);
+                logSecurityEvent('RLS blocked review select', ip, { facultyId });
                 if (process.env.NODE_ENV !== 'production') {
-                    return NextResponse.json({ error: 'Row level security prevented the request', details: (error as any)?.message || null, hint: (error as any)?.details || null }, { status: 500 });
+                    return NextResponse.json(
+                        {
+                            error: 'Row level security prevented the request',
+                            details: (error as any)?.message || null,
+                            hint: (error as any)?.details || null,
+                        },
+                        { status: 500 }
+                    );
                 }
                 return NextResponse.json({ error: 'Failed to fetch reviews' }, { status: 500 });
             }
 
-            if (errMsg.includes('column') || (error as any)?.code === '42703' || errDetails.includes('column')) {
-                console.warn(`Column ${col} not usable for select, trying next candidate.`);
+            if (
+                errMsg.includes('column') ||
+                (error as any)?.code === '42703' ||
+                errDetails.includes('column')
+            ) {
+                console.warn(`Column ${col} not usable for select, trying next.`);
                 continue;
             }
 
-            console.error('Database error on select attempt:', error);
+            console.error('Database error on select:', error);
+            logSecurityEvent('Database error on review select', ip, {
+                error: (error as any)?.message,
+            });
             if (process.env.NODE_ENV !== 'production') {
-                return NextResponse.json({ error: 'Failed to fetch reviews', details: (error as any)?.message || null, hint: (error as any)?.details || null }, { status: 500 });
+                return NextResponse.json(
+                    {
+                        error: 'Failed to fetch reviews',
+                        details: (error as any)?.message || null,
+                        hint: (error as any)?.details || null,
+                    },
+                    { status: 500 }
+                );
             }
             return NextResponse.json({ error: 'Failed to fetch reviews' }, { status: 500 });
         }
 
         if (!usedColumn) {
             console.error('Select failed for all candidate columns:', lastError);
+            logSecurityEvent('Select failed for all columns', ip, { facultyId });
             if (process.env.NODE_ENV !== 'production') {
-                return NextResponse.json({ error: 'Failed to fetch reviews', details: (lastError as any)?.message || null, hint: (lastError as any)?.details || null }, { status: 500 });
+                return NextResponse.json(
+                    {
+                        error: 'Failed to fetch reviews',
+                        details: (lastError as any)?.message || null,
+                        hint: (lastError as any)?.details || null,
+                    },
+                    { status: 500 }
+                );
             }
             return NextResponse.json({ error: 'Failed to fetch reviews' }, { status: 500 });
         }
 
         console.log(`Fetched reviews using column: ${usedColumn}`);
-        return NextResponse.json({ data: rows, usedColumn });
+        return NextResponse.json(
+            { data: rows, usedColumn },
+            {
+                headers: {
+                    'Cache-Control': 'private, max-age=60',
+                    'X-RateLimit-Remaining': rateCheck.remaining.toString(),
+                },
+            }
+        );
     } catch (error) {
         console.error('API error:', error);
-        return NextResponse.json(
-            { error: 'Internal server error' },
-            { status: 500 }
-        );
+        const ip = getClientIp(request);
+        logSecurityEvent('Unhandled error in GET /api/reviews', ip, { error: String(error) });
+        return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
     }
 }
