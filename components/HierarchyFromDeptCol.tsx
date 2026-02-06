@@ -38,7 +38,7 @@ export default function HierarchyFromDeptCol() {
             try {
                 // Fetch all faculty to build hierarchy structure - get all in one call
                 // Structure only stores counts, not individual records
-                const response = await fetch('/api/faculty?limit=5000&page=1');
+                const response = await fetch('/api/faculty?limit=1000&page=1');
                 if (!response.ok) throw new Error('Failed to fetch faculty');
 
                 const { data } = await response.json();
