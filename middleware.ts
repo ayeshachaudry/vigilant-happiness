@@ -25,11 +25,13 @@ export function middleware(request: NextRequest) {
   const nonce = generateNonce();
   response.headers.set('X-Nonce', nonce);
 
-  // CSP with nonce - runtime generation per request
+  // CSP with nonce for inline + https CDNs for external scripts
+  // Nonce: for inline <script> tags in HTML
+  // https:// external: for trusted CDN scripts (jsdelivr, google reCAPTCHA, etc)
   const csp =
     process.env.NODE_ENV === 'production'
-      ? `default-src 'self'; script-src 'self' 'nonce-${nonce}' https://cdn.jsdelivr.net https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'nonce-${nonce}'; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' https://*.supabase.co https://www.google.com/recaptcha/; frame-src https://www.google.com/recaptcha/; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;`
-      : `default-src 'self'; script-src 'self' 'nonce-${nonce}' 'unsafe-eval' https://cdn.jsdelivr.net https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'nonce-${nonce}'; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' ws://localhost:* https://*.supabase.co https://cdn.jsdelivr.net https://www.google.com/recaptcha/; frame-src https://www.google.com/recaptcha/; frame-ancestors 'none'; base-uri 'self'; form-action 'self';`;
+      ? `default-src 'self'; script-src 'self' 'nonce-${nonce}' https:; style-src 'self' 'nonce-${nonce}' https://fonts.googleapis.com https://cdn.jsdelivr.net; img-src 'self' data: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https:; frame-src https://www.google.com/recaptcha/; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;`
+      : `default-src 'self'; script-src 'self' 'nonce-${nonce}' 'unsafe-eval' https:; style-src 'self' 'nonce-${nonce}' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; img-src 'self' data: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' ws: https:; frame-src https://www.google.com/recaptcha/; frame-ancestors 'none'; base-uri 'self'; form-action 'self';`;
   response.headers.set('Content-Security-Policy', csp);
 
   return response;
