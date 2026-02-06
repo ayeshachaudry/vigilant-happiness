@@ -1,34 +1,36 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-import { validateRequestHeaders, getClientIp } from '@/lib/ddos-protection';
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest) {
-  const ip = getClientIp(request);
+  const response = NextResponse.next()
 
-  // Validate request headers for basic DDoS/attack detection
-  const headerValidation = validateRequestHeaders(request);
-  if (!headerValidation.valid) {
-    console.warn(`[Security] Invalid request from ${ip}: ${headerValidation.reason}`);
-    return NextResponse.json(
-      { error: 'Invalid request' },
-      { status: 400 }
-    );
-  }
+  // ✅ Content Security Policy (Next.js + Supabase + CDN safe)
+  const csp = `
+    default-src 'self';
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net;
+    style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net;
+    img-src * data: blob:;
+    font-src 'self' data:;
+    connect-src * ws: wss:;
+    frame-src https://www.google.com/recaptcha/;
+    base-uri 'self';
+    form-action 'self';
+  `
 
-  const response = NextResponse.next();
+  response.headers.set(
+    'Content-Security-Policy',
+    csp.replace(/\n/g, ' ')
+  )
 
-  // CSP - Pragma: Allow inline scripts from trusted CDNs
-  // Production: allows unsafe-inline since we trust CDN content
-  // Alternative: implement hash-based CSP when next.js middleware supports response.body inspection
-  const csp =
-    process.env.NODE_ENV === 'production'
-      ? `default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' https:; frame-src https://www.google.com/recaptcha/; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;`
-      : `default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' ws: https:; frame-src https://www.google.com/recaptcha/; frame-ancestors 'none'; base-uri 'self'; form-action 'self';`;
-  response.headers.set('Content-Security-Policy', csp);
+  // ✅ Extra basic security headers (safe on Vercel)
+  response.headers.set('X-Frame-Options', 'DENY')
+  response.headers.set('X-Content-Type-Options', 'nosniff')
+  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
 
-  return response;
+  return response
 }
 
+// ❗ IMPORTANT: do NOT run middleware on static files
 export const config = {
   matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
-};
+}
