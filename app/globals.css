@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --background: #00140a;
-  /* deep green-black */
-  --foreground: #eafff3;
-  /* soft off-white */
-  --accent: #7effa1;
-  /* bright mint green */
-  --accent-2: #3aff8a;
-  /* vivid green */
-  --neon: #7effa1;
-  --glass-bg: rgba(255, 255, 255, 0.03);
-  --card-bg: linear-gradient(135deg, rgba(126, 255, 161, 0.05), rgba(58, 255, 138, 0.03));
+  --background: #050505;
+  /* near-black base */
+  --foreground: #f6f6f6;
+  /* light foreground */
+  --accent: #ff2d2d;
+  /* vivid red */
+  --accent-2: #b90f0f;
+  /* darker red */
+  --neon: #ff2d2d;
+  --glass-bg: rgba(255, 255, 255, 0.02);
+  --card-bg: linear-gradient(135deg, rgba(255, 45, 45, 0.04), rgba(185, 15, 15, 0.02));
 }
 
 /* Floating Animation */
@@ -49,11 +49,11 @@
 
   0%,
   100% {
-    box-shadow: 0 0 20px rgba(0, 255, 240, 0.18), 0 0 40px rgba(138, 79, 255, 0.08);
+    box-shadow: 0 0 20px rgba(255, 45, 45, 0.18), 0 0 40px rgba(185, 15, 15, 0.08);
   }
 
   50% {
-    box-shadow: 0 0 36px rgba(0, 255, 240, 0.36), 0 0 72px rgba(138, 79, 255, 0.18);
+    box-shadow: 0 0 36px rgba(255, 45, 45, 0.36), 0 0 72px rgba(185, 15, 15, 0.18);
   }
 }
 
@@ -161,7 +161,7 @@ body::after {
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  background: linear-gradient(120deg, rgba(126, 255, 161, 0.10) 0%, rgba(58, 255, 140, 0.06) 35%, rgba(10, 120, 70, 0.04) 60%, rgba(0, 0, 0, 0) 100%);
+  background: linear-gradient(120deg, rgba(255, 45, 45, 0.12) 0%, rgba(185, 15, 15, 0.08) 35%, rgba(80, 5, 5, 0.04) 60%, rgba(0, 0, 0, 0) 100%);
   background-size: 200% 200%;
   opacity: 0.45;
   mix-blend-mode: screen;
@@ -170,9 +170,9 @@ body::after {
 }
 
 body {
-  background: radial-gradient(1200px 600px at 10% 10%, rgba(0, 255, 240, 0.06), transparent 8%),
-    radial-gradient(1000px 400px at 90% 80%, rgba(138, 79, 255, 0.04), transparent 6%),
-    linear-gradient(180deg, var(--background) 0%, #020217 100%);
+  background: radial-gradient(1200px 600px at 10% 10%, rgba(255, 45, 45, 0.06), transparent 8%),
+    radial-gradient(1000px 400px at 90% 80%, rgba(185, 15, 15, 0.04), transparent 6%),
+    linear-gradient(180deg, var(--background) 0%, #070707 100%);
   color: var(--foreground);
   font-family: var(--font-orbitron, 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial);
   overflow-x: hidden;
@@ -181,7 +181,7 @@ body {
 /* Futuristic Glass / Neon Utilities */
 .futuristic-card {
   background: var(--card-bg);
-  border: 1px solid rgba(0, 255, 240, 0.08);
+  border: 1px solid rgba(255, 45, 45, 0.08);
   border-radius: 14px;
   box-shadow: 0 12px 48px rgba(0, 0, 0, 0.6), 0 0 24px rgba(0, 255, 240, 0.03) inset;
   transition: transform 220ms cubic-bezier(.2, .9, .2, 1), box-shadow 220ms;
@@ -192,32 +192,32 @@ body {
 
 .futuristic-card:hover {
   transform: translateY(-10px) scale(1.01);
-  box-shadow: 0 26px 80px rgba(0, 0, 0, 0.7), 0 0 80px rgba(0, 255, 240, 0.06);
+  box-shadow: 0 26px 80px rgba(0, 0, 0, 0.7), 0 0 80px rgba(255, 45, 45, 0.06);
 }
 
 .neon-text {
   color: var(--accent);
-  text-shadow: 0 0 10px rgba(0, 255, 240, 0.18), 0 0 28px rgba(138, 79, 255, 0.08);
+  text-shadow: 0 0 10px rgba(255, 45, 45, 0.18), 0 0 28px rgba(185, 15, 15, 0.08);
 }
 
 .neon-border {
-  border: 1px solid rgba(0, 255, 240, 0.10);
-  box-shadow: 0 8px 28px rgba(0, 255, 240, 0.04);
+  border: 1px solid rgba(255, 45, 45, 0.10);
+  box-shadow: 0 8px 28px rgba(255, 45, 45, 0.04);
 }
 
 .neon-btn {
-  background: linear-gradient(90deg, rgba(0, 255, 240, 0.12), rgba(138, 79, 255, 0.12));
+  background: linear-gradient(90deg, rgba(255, 45, 45, 0.12), rgba(185, 15, 15, 0.12));
   color: var(--foreground);
   border-radius: 12px;
   padding: 0.6rem 1rem;
-  box-shadow: 0 10px 30px rgba(0, 255, 240, 0.05);
+  box-shadow: 0 10px 30px rgba(255, 45, 45, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(4px);
 }
 
 .neon-btn:hover:not(:disabled) {
   transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 30px 80px rgba(0, 255, 240, 0.16);
+  box-shadow: 0 30px 80px rgba(255, 45, 45, 0.16);
 }
 
 .neon-btn:disabled {
@@ -257,6 +257,6 @@ body {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  text-shadow: 0 6px 30px rgba(0, 255, 240, 0.08);
+  text-shadow: 0 6px 30px rgba(255, 45, 45, 0.08);
   font-weight: 700;
 }

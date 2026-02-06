@@ -56,28 +56,67 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Insert review with RLS (Row Level Security)
-        const { data, error } = await supabase
-            .from('reviews')
-            .insert({
-                faculty_id: facultyId,
-                rating,
-                comment: comment || null,
-            })
-            .select();
+        // Attempt insertion trying both possible column names to handle schema typo
+        const candidateColumns = ['faculty_id', 'facult_id'];
+        let lastError: any = null;
+        let usedColumn: string | null = null;
+        let insertedData: any = null;
 
-        if (error) {
-            console.error('Database error:', error);
-            return NextResponse.json(
-                { error: 'Failed to submit review' },
-                { status: 500 }
-            );
+        for (const col of candidateColumns) {
+            const payload: Record<string, any> = { rating, comment: comment || null };
+            payload[col] = facultyId;
+
+            const { data, error } = await supabase.from('reviews').insert(payload).select();
+
+            if (!error) {
+                usedColumn = col;
+                insertedData = data;
+                break;
+            }
+
+            lastError = error;
+
+            const errMsg = String((error as any)?.message || '').toLowerCase();
+            const errDetails = String((error as any)?.details || '').toLowerCase();
+
+            // If RLS prevented the request, return immediately with helpful message
+            if (errMsg.includes('row level security') || errDetails.includes('row level security')) {
+                console.error('RLS blocked insert:', error);
+                if (process.env.NODE_ENV !== 'production') {
+                    return NextResponse.json({ error: 'Row level security prevented the request', details: (error as any)?.message || null, hint: (error as any)?.details || null }, { status: 500 });
+                }
+                return NextResponse.json({ error: 'Failed to submit review' }, { status: 500 });
+            }
+
+            // If the error indicates a missing column, try the next candidate
+            if (errMsg.includes('column') || (error as any)?.code === '42703' || errDetails.includes('column')) {
+                console.warn(`Column ${col} not usable, trying next candidate if any.`);
+                continue;
+            }
+
+            // Any other error - stop and return it
+            console.error('Database error on insert attempt:', error);
+            if (process.env.NODE_ENV !== 'production') {
+                return NextResponse.json({ error: 'Failed to submit review', details: (error as any)?.message || null, hint: (error as any)?.details || null }, { status: 500 });
+            }
+            return NextResponse.json({ error: 'Failed to submit review' }, { status: 500 });
         }
 
-        return NextResponse.json(
-            { success: true, data },
-            { status: 201 }
-        );
+        if (!usedColumn) {
+            // Nothing succeeded
+            try {
+                console.error('Insert failed for all candidate columns:', JSON.stringify(lastError, Object.getOwnPropertyNames(lastError)));
+            } catch (e) {
+                console.error('Insert failed (stringify failed):', lastError);
+            }
+            if (process.env.NODE_ENV !== 'production') {
+                return NextResponse.json({ error: 'Failed to submit review', details: (lastError as any)?.message || null, hint: (lastError as any)?.details || null }, { status: 500 });
+            }
+            return NextResponse.json({ error: 'Failed to submit review' }, { status: 500 });
+        }
+
+        console.log(`Inserted review using column: ${usedColumn}`);
+        return NextResponse.json({ success: true, data: insertedData, usedColumn }, { status: 201 });
     } catch (error) {
         console.error('API error:', error);
         return NextResponse.json(
@@ -116,21 +155,59 @@ export async function GET(request: NextRequest) {
             );
         }
 
-        const { data, error } = await supabase
-            .from('reviews')
-            .select('*')
-            .eq('faculty_id', Number(facultyId))
-            .order('created_at', { ascending: false });
+        // Try selecting by either `faculty_id` or the typo `facult_id` if needed
+        const candidateColumns = ['faculty_id', 'facult_id'];
+        let lastError: any = null;
+        let rows: any = null;
+        let usedColumn: string | null = null;
 
-        if (error) {
-            console.error('Database error:', error);
-            return NextResponse.json(
-                { error: 'Failed to fetch reviews' },
-                { status: 500 }
-            );
+        for (const col of candidateColumns) {
+            const { data, error } = await supabase
+                .from('reviews')
+                .select('*')
+                .eq(col, Number(facultyId))
+                .order('created_at', { ascending: false });
+
+            if (!error) {
+                rows = data;
+                usedColumn = col;
+                break;
+            }
+
+            lastError = error;
+            const errMsg = String((error as any)?.message || '').toLowerCase();
+            const errDetails = String((error as any)?.details || '').toLowerCase();
+
+            if (errMsg.includes('row level security') || errDetails.includes('row level security')) {
+                console.error('RLS blocked select:', error);
+                if (process.env.NODE_ENV !== 'production') {
+                    return NextResponse.json({ error: 'Row level security prevented the request', details: (error as any)?.message || null, hint: (error as any)?.details || null }, { status: 500 });
+                }
+                return NextResponse.json({ error: 'Failed to fetch reviews' }, { status: 500 });
+            }
+
+            if (errMsg.includes('column') || (error as any)?.code === '42703' || errDetails.includes('column')) {
+                console.warn(`Column ${col} not usable for select, trying next candidate.`);
+                continue;
+            }
+
+            console.error('Database error on select attempt:', error);
+            if (process.env.NODE_ENV !== 'production') {
+                return NextResponse.json({ error: 'Failed to fetch reviews', details: (error as any)?.message || null, hint: (error as any)?.details || null }, { status: 500 });
+            }
+            return NextResponse.json({ error: 'Failed to fetch reviews' }, { status: 500 });
         }
 
-        return NextResponse.json({ data });
+        if (!usedColumn) {
+            console.error('Select failed for all candidate columns:', lastError);
+            if (process.env.NODE_ENV !== 'production') {
+                return NextResponse.json({ error: 'Failed to fetch reviews', details: (lastError as any)?.message || null, hint: (lastError as any)?.details || null }, { status: 500 });
+            }
+            return NextResponse.json({ error: 'Failed to fetch reviews' }, { status: 500 });
+        }
+
+        console.log(`Fetched reviews using column: ${usedColumn}`);
+        return NextResponse.json({ data: rows, usedColumn });
     } catch (error) {
         console.error('API error:', error);
         return NextResponse.json(

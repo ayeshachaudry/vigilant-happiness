@@ -1,4 +1,4 @@
-import InstructorsHierarchy from "@/components/InstructorsHierarchy";
+import HierarchyFromDeptCol from "@/components/HierarchyFromDeptCol";
 
 export default function InstructorsPage() {
     return (
@@ -10,7 +10,7 @@ export default function InstructorsPage() {
                 <p className="text-gray-400 mb-12">
                     Explore our teaching staff across campuses and departments
                 </p>
-                <InstructorsHierarchy />
+                <HierarchyFromDeptCol />
             </div>
         </main>
     );
