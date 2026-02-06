@@ -27,7 +27,7 @@ export default function FacultyPage() {
             const { data: r } = await supabase
                 .from("reviews")
                 .select("*")
-                .eq("faculty_id", facultyId)
+                .eq("facult_id", facultyId)
                 .order("created_at", { ascending: false });
 
             setFaculty(f);

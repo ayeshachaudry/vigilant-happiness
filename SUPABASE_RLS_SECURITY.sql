@@ -56,25 +56,23 @@ CREATE POLICY "reviews_select_all" ON reviews
   FOR SELECT
   USING (true);
 
--- Allow INSERT only for authenticated users. Prefer server-side inserts with the
--- service role key for full control. If you use server-side inserts, the
--- service role bypasses RLS; this policy protects direct client writes.
-DROP POLICY IF EXISTS "reviews_insert_anon" ON reviews;
-CREATE POLICY "reviews_insert_authenticated" ON reviews
+-- Allow INSERT from anon role (controlled via API rate limiting & validation)
+-- In production, you may prefer service-role server-side inserts. If you keep
+-- anonymous inserts, ensure strong server-side validation and rate limiting.
+DROP POLICY IF EXISTS "reviews_insert_authenticated" ON reviews;
+CREATE POLICY "reviews_insert_anon" ON reviews
   FOR INSERT
   WITH CHECK (
-    -- Require an authenticated user (or server-side service role which bypasses RLS)
-    auth.uid() IS NOT NULL AND
     -- Validate: rating between 1-5
     rating >= 1 AND rating <= 5 AND
     -- Validate: comment not too long (normalized to 5000 chars)
     (comment IS NULL OR LENGTH(comment) <= 5000)
   );
 
--- Additionally ensure referential integrity: faculty_id must reference faculty.id
--- (run this only if your schema has `faculty_id` column on `reviews`)
-ALTER TABLE reviews
-  ADD CONSTRAINT IF NOT EXISTS reviews_faculty_fk FOREIGN KEY (faculty_id) REFERENCES faculty(id);
+-- Ensure referential integrity: `facult_id` must reference `faculty.id`.
+-- Drop constraint if it exists, then create it fresh.
+ALTER TABLE reviews DROP CONSTRAINT IF EXISTS reviews_faculty_fk;
+ALTER TABLE reviews ADD CONSTRAINT reviews_faculty_fk FOREIGN KEY (facult_id) REFERENCES faculty(id);
 
 -- Deny UPDATE and DELETE from anon role (reviews are immutable unless auto-admin)
 CREATE POLICY "reviews_deny_update" ON reviews

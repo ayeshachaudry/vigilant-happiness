@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
-import { getSupabaseAdmin } from '@/lib/supabase-admin';
 import {
     getClientIp,
     checkRateLimit,
@@ -38,8 +37,38 @@ export async function POST(request: NextRequest) {
             return rateLimitResponse(rateCheck.remaining, rateCheck.resetTime);
         }
 
-        // Read and hash request body for replay attack detection
+        // Read request body
         const body = await request.json();
+
+        // Simple honeypot: bots may fill hidden fields. If present, reject immediately.
+        if ((body as any)?.hp) {
+            logSecurityEvent('Honeypot triggered', ip, { snippet: String((body as any)?.hp).slice(0, 120) });
+            return badRequestResponse('Invalid request');
+        }
+
+        // Verify reCAPTCHA token if provided
+        const recaptchaToken = (body as any)?.recaptchaToken;
+        if (recaptchaToken && process.env.RECAPTCHA_SECRET_KEY) {
+            try {
+                const recaptchaResponse = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${recaptchaToken}`,
+                });
+                const recaptchaData = await recaptchaResponse.json();
+                // reCAPTCHA v3 returns score 0-1; reject if too low (likely bot)
+                if (!recaptchaData.success || (recaptchaData.score && recaptchaData.score < 0.5)) {
+                    logSecurityEvent('reCAPTCHA verification failed', ip, { score: recaptchaData.score });
+                    return badRequestResponse('CAPTCHA verification failed');
+                }
+            } catch (e) {
+                console.error('reCAPTCHA verification error:', e);
+                logSecurityEvent('reCAPTCHA verification error', ip, { error: String(e) });
+                // Don't block on verification error, just log
+            }
+        }
+
+        // Hash request body for replay attack detection
         const bodyHash = crypto
             .createHash('sha256')
             .update(JSON.stringify(body))
@@ -86,10 +115,8 @@ export async function POST(request: NextRequest) {
             const payload: Record<string, any> = { rating, comment: comment || null };
             payload[col] = facultyId;
 
-            // Use server-side service-role client for inserts so we don't expose a privileged key to clients.
-            // Create admin client lazily; this will throw a helpful error if the service role key is missing.
-            const supabaseAdmin = getSupabaseAdmin();
-            const { data, error } = await supabaseAdmin.from('reviews').insert(payload).select();
+            // Use public anon client for inserts (no service role key exposed to clients).
+            const { data, error } = await supabase.from('reviews').insert(payload).select();
 
             if (!error) {
                 usedColumn = col;

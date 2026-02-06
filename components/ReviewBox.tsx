@@ -1,8 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import CelebrationOverlay from "./CelebrationOverlay";
+
+declare global {
+  interface Window {
+    grecaptcha?: any;
+  }
+}
 
 export default function ReviewBox({
   facultyId,
@@ -16,6 +22,15 @@ export default function ReviewBox({
   const [error, setError] = useState("");
   const [hoveredRating, setHoveredRating] = useState(0);
 
+  // Load reCAPTCHA v3 script
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = `https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}`;
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+  }, []);
+
   const submitReview = async () => {
     if (rating === 0) {
       setError("Please select a rating");
@@ -26,6 +41,15 @@ export default function ReviewBox({
     setLoading(true);
 
     try {
+      // Get reCAPTCHA token
+      let recaptchaToken = "";
+      if (window.grecaptcha && process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY) {
+        recaptchaToken = await window.grecaptcha.execute(
+          process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
+          { action: "submit_review" }
+        );
+      }
+
       const response = await fetch("/api/reviews", {
         method: "POST",
         headers: {
@@ -35,6 +59,7 @@ export default function ReviewBox({
           facultyId,
           rating,
           comment: comment || null,
+          recaptchaToken, // Add CAPTCHA token
         }),
       });
 
