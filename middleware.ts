@@ -43,8 +43,8 @@ export function middleware(request: NextRequest) {
   // Content Security Policy - Strict (remove unsafe-inline/eval in production)
   const csp =
     process.env.NODE_ENV === 'production'
-      ? "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'nonce-{random}'; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' https://*.supabase.co; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;"
-      : "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' ws://localhost:* https://*.supabase.co https://cdn.jsdelivr.net; frame-ancestors 'none'; base-uri 'self'; form-action 'self';";
+      ? "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self'; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' https://*.supabase.co https://www.google.com/recaptcha/; frame-src https://www.google.com/recaptcha/; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;"
+      : "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/ https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' ws://localhost:* https://*.supabase.co https://cdn.jsdelivr.net https://www.google.com/recaptcha/; frame-src https://www.google.com/recaptcha/; frame-ancestors 'none'; base-uri 'self'; form-action 'self';";
   response.headers.set('Content-Security-Policy', csp);
 
   // Strict Transport Security (1 year, subdomains, preload)

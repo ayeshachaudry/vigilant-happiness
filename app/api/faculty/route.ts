@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
         const department = searchParams.get('department');
         const search = searchParams.get('search');
         const page = Math.max(1, parseInt(searchParams.get('page') || '1', 10));
-        const limit = Math.min(1000, Math.max(1, parseInt(searchParams.get('limit') || '50', 10)));
+        const limit = Math.min(500, Math.max(1, parseInt(searchParams.get('limit') || '50', 10)));
         const offset = (page - 1) * limit;
 
         // Validate search query
@@ -45,7 +45,9 @@ export async function GET(request: NextRequest) {
         }
 
         // Build query - include pagination
-        let query = supabase.from('faculty').select('*', { count: 'exact' }).range(offset, offset + limit - 1);
+        // Optimize: only select needed columns initially (full select only on filters)
+        let selectColumns = department || university || search ? '*' : 'id,name,designation,department';
+        let query = supabase.from('faculty').select(selectColumns, { count: 'exact' }).range(offset, offset + limit - 1);
 
         // Apply filters safely
         if (university && university !== 'All' && university.length < 100) {
