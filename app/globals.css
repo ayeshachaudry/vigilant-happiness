@@ -260,3 +260,23 @@ body {
   text-shadow: 0 6px 30px rgba(255, 45, 45, 0.08);
   font-weight: 700;
 }
+/* 🌌 Aurora background */
+.aurora-bg {
+  background: radial-gradient(
+      1200px circle at 10% 10%,
+      rgba(0, 255, 170, 0.15),
+      transparent 40%
+    ),
+    radial-gradient(
+      800px circle at 90% 20%,
+      rgba(0, 255, 100, 0.12),
+      transparent 40%
+    ),
+    radial-gradient(
+      1000px circle at 50% 90%,
+      rgba(0, 255, 180, 0.12),
+      transparent 40%
+    ),
+    #000;
+  min-height: 100vh;
+}
