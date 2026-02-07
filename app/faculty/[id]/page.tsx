@@ -1,209 +1,165 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState, use } from "react";
+import { supabase } from "@/lib/supabase";
 import { motion, AnimatePresence } from "framer-motion";
-import { supabase } from "../../../lib/supabase";
-import ReviewBox from "../../../components/ReviewBox";
-import Avatar from "../../../components/Avatar";
 
-export default function FacultyPage() {
-    const { id } = useParams();
-    const router = useRouter();
+type Faculty = {
+    id: number;
+    name: string;
+    designation: string | null;
+    department: string | null;
+    image_url: string | null;
+};
+
+export default function FacultyReviewPage({
+    params,
+}: {
+    params: Promise<{ id: string }>;
+}) {
+    /* ✅ CORRECT WAY (Next.js 14+) */
+    const { id } = use(params);
     const facultyId = Number(id);
 
-    const [faculty, setFaculty] = useState<any>(null);
-    const [reviews, setReviews] = useState<any[]>([]);
-    const [avgRating, setAvgRating] = useState(0);
+    const [faculty, setFaculty] = useState<Faculty | null>(null);
+    const [rating, setRating] = useState(0);
+    const [review, setReview] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState(false);
 
+    /* 📡 FETCH FACULTY */
     useEffect(() => {
-        const loadData = async () => {
-            const { data: f } = await supabase
+        const fetchFaculty = async () => {
+            const { data, error } = await supabase
                 .from("faculty")
-                .select("*")
+                .select("id, name, designation, department, image_url")
                 .eq("id", facultyId)
                 .single();
 
-            const { data: r } = await supabase
-                .from("reviews")
-                .select("*")
-                .eq("facult_id", facultyId)
-                .order("created_at", { ascending: false });
-
-            setFaculty(f);
-            setReviews(r || []);
-
-            if (r && r.length > 0) {
-                const avg = (r.reduce((sum, review) => sum + review.rating, 0) / r.length).toFixed(1);
-                setAvgRating(parseFloat(avg));
+            if (error) {
+                console.error(error);
+                return;
             }
+
+            setFaculty(data);
         };
 
-        loadData();
+        fetchFaculty();
     }, [facultyId]);
 
+    /* 📝 SUBMIT REVIEW */
+    const submitReview = async () => {
+        if (!rating || !review) return;
+
+        setLoading(true);
+
+        await supabase.from("review").insert({
+            faculty_id: facultyId,
+            rating,
+            review,
+        });
+
+        setLoading(false);
+        setSuccess(true);
+        setRating(0);
+        setReview("");
+
+        setTimeout(() => setSuccess(false), 2500);
+    };
+
     if (!faculty) {
-        return (
-            <main className="relative min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-                <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                    className="w-16 h-16 border-4 border-indigo-500 border-t-slate-500 rounded-full"
-                />
-            </main>
-        );
+        return <div className="p-10 text-gray-400">Loading instructor...</div>;
     }
 
     return (
-        <main className="relative min-h-screen p-6 md:p-8 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-            <div className="relative z-10 max-w-4xl mx-auto">
-                {/* Back Button */}
+        <div className="relative min-h-screen bg-black text-white flex items-center justify-center overflow-hidden p-6">
+            {/* 🌌 AURORA BACKGROUND */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(0,255,170,0.25),transparent_60%),radial-gradient(circle_at_85%_80%,rgba(0,200,255,0.2),transparent_60%)] blur-3xl" />
+
+            <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="relative z-10 w-full max-w-xl rounded-2xl border border-green-400/30 bg-black/70 backdrop-blur-xl p-8 shadow-[0_0_70px_rgba(0,255,150,0.25)]"
+            >
+                {/* 👤 INSTRUCTOR INFO */}
+                <div className="flex items-center gap-4 mb-6">
+                    <motion.img
+                        src={faculty.image_url || "/avatar.png"}
+                        alt={faculty.name}
+                        whileHover={{ scale: 1.05 }}
+                        className="w-20 h-20 rounded-full object-cover border border-green-400 shadow-[0_0_25px_rgba(0,255,150,0.6)]"
+                    />
+
+                    <div>
+                        <h2 className="text-2xl font-bold text-green-400">
+                            {faculty.name}
+                        </h2>
+                        <p className="text-sm text-gray-300">
+                            {faculty.designation || "Faculty Member"}
+                        </p>
+                        <p className="text-xs text-gray-400">
+                            {faculty.department}
+                        </p>
+                    </div>
+                </div>
+
+                {/* ⭐ RATING */}
+                <div className="flex justify-center gap-3 mb-6">
+                    {[1, 2, 3, 4, 5].map((i) => (
+                        <motion.button
+                            key={i}
+                            whileHover={{ scale: 1.3 }}
+                            whileTap={{ scale: 0.9 }}
+                            onClick={() => setRating(i)}
+                            className={`text-3xl ${rating >= i ? "text-green-400" : "text-gray-600"
+                                } drop-shadow-[0_0_12px_rgba(0,255,150,0.8)]`}
+                        >
+                            ★
+                        </motion.button>
+                    ))}
+                </div>
+
+                {/* ✍️ REVIEW */}
+                <motion.textarea
+                    whileFocus={{
+                        boxShadow: "0 0 30px rgba(0,255,150,0.5)",
+                    }}
+                    className="w-full h-32 bg-black/60 border border-green-400/40 rounded-xl p-4 text-gray-200 outline-none resize-none mb-6"
+                    placeholder={`Write a review for ${faculty.name}...`}
+                    value={review}
+                    onChange={(e) => setReview(e.target.value)}
+                />
+
+                {/* 🚀 SUBMIT */}
                 <motion.button
-                    whileHover={{ x: -5 }}
-                    onClick={() => router.back()}
-                    className="mb-6 flex items-center gap-2 text-indigo-400 hover:text-indigo-300 transition-colors font-medium"
+                    whileHover={{
+                        scale: 1.05,
+                        boxShadow: "0 0 40px rgba(0,255,150,0.8)",
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                    disabled={loading}
+                    onClick={submitReview}
+                    className="w-full py-3 rounded-xl bg-green-500 text-black font-semibold tracking-wide"
                 >
-                    ← Back
+                    {loading ? "Submitting..." : "Submit Review"}
                 </motion.button>
 
-                {/* Faculty Header Card */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                    className="p-6 md:p-10 rounded-xl bg-slate-800 border border-slate-700 shadow-lg mb-8"
-                >
-                    <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8">
-                        <motion.div whileHover={{ scale: 1.1 }}>
-                            <Avatar name={faculty.name} image={faculty.image_url} />
-                        </motion.div>
-                        <div className="text-center md:text-left flex-1">
-                            <motion.h1
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: 0.2 }}
-                                className="text-3xl md:text-5xl font-bold text-slate-100 mb-2"
-                            >
-                                {faculty.name}
-                            </motion.h1>
-                            <motion.p
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: 0.3 }}
-                                className="text-lg md:text-xl text-purple-300 font-semibold mb-1"
-                            >
-                                {faculty.designation}
-                            </motion.p>
-                            <motion.p
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: 0.4 }}
-                                className="text-gray-400"
-                            >
-                                {faculty.department}
-                            </motion.p>
-
-                            {/* Rating Summary */}
-                            {reviews.length > 0 && (
-                                <motion.div
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{ delay: 0.5 }}
-                                    className="mt-4 inline-block"
-                                >
-                                    <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/20">
-                                        <span className="text-2xl text-yellow-400">★</span>
-                                        <span className="text-xl font-bold text-white">{avgRating}</span>
-                                        <span className="text-gray-400">({reviews.length} reviews)</span>
-                                    </div>
-                                </motion.div>
-                            )}
-                        </div>
-                    </div>
-                </motion.div>
-
-                {/* Review Form */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
-                    className="mb-10"
-                >
-                    <h2 className="text-2xl font-bold text-white mb-4">Share Your Experience</h2>
-                    <ReviewBox facultyId={facultyId} />
-                </motion.div>
-
-                {/* Reviews Section */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4 }}
-                >
-                    <h2 className="text-2xl font-bold text-white mb-6">Reviews</h2>
-
-                    {reviews.length === 0 ? (
+                {/* ✅ SUCCESS */}
+                <AnimatePresence>
+                    {success && (
                         <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            className="p-8 text-center rounded-2xl backdrop-blur bg-white/5 border border-white/20"
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.8 }}
+                            className="absolute inset-0 flex items-center justify-center bg-black/80 rounded-2xl"
                         >
-                            <p className="text-gray-400 text-lg">No reviews yet. Be the first to share!</p>
+                            <div className="text-green-400 text-xl font-bold drop-shadow-[0_0_30px_rgba(0,255,150,1)]">
+                                ✔ Review submitted for {faculty.name}
+                            </div>
                         </motion.div>
-                    ) : (
-                        <AnimatePresence>
-                            <motion.div className="space-y-4">
-                                {reviews.map((r, i) => (
-                                    <motion.div
-                                        key={r.id}
-                                        initial={{ opacity: 0, x: -20 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        exit={{ opacity: 0, x: 20 }}
-                                        transition={{ delay: i * 0.05 }}
-                                        whileHover={{ x: 4 }}
-                                        className="p-5 rounded-2xl backdrop-blur bg-gradient-to-r from-white/5 to-white/10 border border-white/20 hover:border-white/40 shadow-lg transition-all hover:shadow-xl"
-                                    >
-                                        {/* Rating Stars */}
-                                        <div className="flex items-center gap-3 mb-3">
-                                            <motion.div
-                                                initial={{ opacity: 0 }}
-                                                animate={{ opacity: 1 }}
-                                                className="flex"
-                                            >
-                                                {[1, 2, 3, 4, 5].map((n) => (
-                                                    <span
-                                                        key={n}
-                                                        className={`text-lg ${n <= r.rating
-                                                            ? "text-yellow-400"
-                                                            : "text-gray-500"
-                                                            }`}
-                                                    >
-                                                        ★
-                                                    </span>
-                                                ))}
-                                            </motion.div>
-                                            <span className="text-sm text-gray-400">
-                                                {new Date(r.created_at).toLocaleDateString()}
-                                            </span>
-                                        </div>
-
-                                        {/* Comment */}
-                                        {r.comment && (
-                                            <motion.p
-                                                initial={{ opacity: 0 }}
-                                                animate={{ opacity: 1 }}
-                                                transition={{ delay: 0.1 }}
-                                                className="text-gray-300 leading-relaxed"
-                                            >
-                                                {r.comment}
-                                            </motion.p>
-                                        )}
-                                    </motion.div>
-                                ))}
-                            </motion.div>
-                        </AnimatePresence>
                     )}
-                </motion.div>
-            </div>
-        </main>
+                </AnimatePresence>
+            </motion.div>
+        </div>
     );
 }
