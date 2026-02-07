@@ -1,45 +1,45 @@
 "use client";
 
-import { useEffect, useState, use } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 type Faculty = {
     id: number;
     name: string;
-    designation: string | null;
-    department: string | null;
+    department: string;
+    designation: string;
     image_url: string | null;
 };
 
-export default function FacultyReviewPage({
-    params,
-}: {
-    params: Promise<{ id: string }>;
-}) {
-    /* ✅ CORRECT WAY (Next.js 14+) */
-    const { id } = use(params);
-    const facultyId = Number(id);
+type Review = {
+    id: number;
+    rating: number;
+    comment: string;
+    created_at: string;
+};
+
+export default function FacultyReviewPage() {
+    const params = useParams();
+    const facultyId = Number(params.id);
 
     const [faculty, setFaculty] = useState<Faculty | null>(null);
+    const [reviews, setReviews] = useState<Review[]>([]);
     const [rating, setRating] = useState(0);
-    const [review, setReview] = useState("");
+    const [comment, setComment] = useState("");
     const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState(false);
 
-    /* 📡 FETCH FACULTY */
+    /* ---------------- FETCH FACULTY ---------------- */
     useEffect(() => {
+        if (!facultyId) return;
+
         const fetchFaculty = async () => {
-            const { data, error } = await supabase
+            const { data } = await supabase
                 .from("faculty")
-                .select("id, name, designation, department, image_url")
+                .select("*")
                 .eq("id", facultyId)
                 .single();
-
-            if (error) {
-                console.error(error);
-                return;
-            }
 
             setFaculty(data);
         };
@@ -47,119 +47,131 @@ export default function FacultyReviewPage({
         fetchFaculty();
     }, [facultyId]);
 
-    /* 📝 SUBMIT REVIEW */
+    /* ---------------- FETCH REVIEWS ---------------- */
+    const fetchReviews = async () => {
+        const { data } = await supabase
+            .from("review")
+            .select("*")
+            .eq("faculty_id", facultyId)
+            .order("created_at", { ascending: false });
+
+        setReviews(data || []);
+    };
+
+    useEffect(() => {
+        fetchReviews();
+    }, [facultyId]);
+
+    /* ---------------- SUBMIT REVIEW ---------------- */
     const submitReview = async () => {
-        if (!rating || !review) return;
+        if (rating === 0 || comment.trim() === "") {
+            alert("Rating aur comment dono zaroori hain");
+            return;
+        }
 
         setLoading(true);
 
         await supabase.from("review").insert({
             faculty_id: facultyId,
             rating,
-            review,
+            comment,
         });
 
-        setLoading(false);
-        setSuccess(true);
         setRating(0);
-        setReview("");
-
-        setTimeout(() => setSuccess(false), 2500);
+        setComment("");
+        setLoading(false);
+        fetchReviews(); // 🔥 instantly show new review
     };
 
     if (!faculty) {
-        return <div className="p-10 text-gray-400">Loading instructor...</div>;
+        return <div className="p-10 text-white">Loading...</div>;
     }
 
     return (
-        <div className="relative min-h-screen bg-black text-white flex items-center justify-center overflow-hidden p-6">
-            {/* 🌌 AURORA BACKGROUND */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(0,255,170,0.25),transparent_60%),radial-gradient(circle_at_85%_80%,rgba(0,200,255,0.2),transparent_60%)] blur-3xl" />
-
+        <div className="min-h-screen bg-black text-white px-6 py-10">
+            {/* ---------- FACULTY INFO ---------- */}
             <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="relative z-10 w-full max-w-xl rounded-2xl border border-green-400/30 bg-black/70 backdrop-blur-xl p-8 shadow-[0_0_70px_rgba(0,255,150,0.25)]"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex gap-6 items-center mb-10"
             >
-                {/* 👤 INSTRUCTOR INFO */}
-                <div className="flex items-center gap-4 mb-6">
-                    <motion.img
-                        src={faculty.image_url || "/avatar.png"}
-                        alt={faculty.name}
-                        whileHover={{ scale: 1.05 }}
-                        className="w-20 h-20 rounded-full object-cover border border-green-400 shadow-[0_0_25px_rgba(0,255,150,0.6)]"
-                    />
-
-                    <div>
-                        <h2 className="text-2xl font-bold text-green-400">
-                            {faculty.name}
-                        </h2>
-                        <p className="text-sm text-gray-300">
-                            {faculty.designation || "Faculty Member"}
-                        </p>
-                        <p className="text-xs text-gray-400">
-                            {faculty.department}
-                        </p>
-                    </div>
+                <img
+                    src={faculty.image_url || "/avatar.png"}
+                    className="w-28 h-28 rounded-full border-2 border-green-400"
+                />
+                <div>
+                    <h1 className="text-3xl font-bold neon-text">{faculty.name}</h1>
+                    <p className="text-green-400">{faculty.designation}</p>
+                    <p className="text-gray-400">{faculty.department}</p>
                 </div>
+            </motion.div>
 
-                {/* ⭐ RATING */}
-                <div className="flex justify-center gap-3 mb-6">
-                    {[1, 2, 3, 4, 5].map((i) => (
-                        <motion.button
-                            key={i}
-                            whileHover={{ scale: 1.3 }}
-                            whileTap={{ scale: 0.9 }}
-                            onClick={() => setRating(i)}
-                            className={`text-3xl ${rating >= i ? "text-green-400" : "text-gray-600"
-                                } drop-shadow-[0_0_12px_rgba(0,255,150,0.8)]`}
+            {/* ---------- SUBMIT REVIEW ---------- */}
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="bg-zinc-900 p-6 rounded-xl border border-green-500 shadow-[0_0_25px_#22c55e]"
+            >
+                <h2 className="text-xl mb-4 text-green-400">
+                    Submit review for <b>{faculty.name}</b>
+                </h2>
+
+                <div className="flex gap-2 mb-3">
+                    {[1, 2, 3, 4, 5].map((n) => (
+                        <button
+                            key={n}
+                            onClick={() => setRating(n)}
+                            className={`text-2xl ${rating >= n ? "text-yellow-400" : "text-gray-600"
+                                }`}
                         >
                             ★
-                        </motion.button>
+                        </button>
                     ))}
                 </div>
 
-                {/* ✍️ REVIEW */}
-                <motion.textarea
-                    whileFocus={{
-                        boxShadow: "0 0 30px rgba(0,255,150,0.5)",
-                    }}
-                    className="w-full h-32 bg-black/60 border border-green-400/40 rounded-xl p-4 text-gray-200 outline-none resize-none mb-6"
-                    placeholder={`Write a review for ${faculty.name}...`}
-                    value={review}
-                    onChange={(e) => setReview(e.target.value)}
+                <textarea
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                    placeholder="Write honest review..."
+                    className="w-full p-3 rounded bg-black border border-gray-700 mb-4"
                 />
 
-                {/* 🚀 SUBMIT */}
-                <motion.button
-                    whileHover={{
-                        scale: 1.05,
-                        boxShadow: "0 0 40px rgba(0,255,150,0.8)",
-                    }}
-                    whileTap={{ scale: 0.95 }}
-                    disabled={loading}
+                <button
                     onClick={submitReview}
-                    className="w-full py-3 rounded-xl bg-green-500 text-black font-semibold tracking-wide"
+                    disabled={loading}
+                    className="px-6 py-2 bg-green-500 text-black rounded hover:scale-105 transition"
                 >
                     {loading ? "Submitting..." : "Submit Review"}
-                </motion.button>
-
-                {/* ✅ SUCCESS */}
-                <AnimatePresence>
-                    {success && (
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.8 }}
-                            className="absolute inset-0 flex items-center justify-center bg-black/80 rounded-2xl"
-                        >
-                            <div className="text-green-400 text-xl font-bold drop-shadow-[0_0_30px_rgba(0,255,150,1)]">
-                                ✔ Review submitted for {faculty.name}
-                            </div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+                </button>
             </motion.div>
+
+            {/* ---------- PUBLIC REVIEWS ---------- */}
+            <div className="mt-12">
+                <h2 className="text-2xl mb-4 text-green-400">Public Reviews</h2>
+
+                {reviews.length === 0 && (
+                    <p className="text-gray-500">No reviews yet.</p>
+                )}
+
+                <div className="space-y-4">
+                    {reviews.map((r) => (
+                        <motion.div
+                            key={r.id}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="bg-zinc-900 p-4 rounded-xl border border-green-700"
+                        >
+                            <div className="text-yellow-400 mb-1">
+                                {"★".repeat(r.rating)}
+                            </div>
+                            <p className="text-gray-200">{r.comment}</p>
+                            <p className="text-xs text-gray-500 mt-1">
+                                {new Date(r.created_at).toLocaleString()}
+                            </p>
+                        </motion.div>
+                    ))}
+                </div>
+            </div>
         </div>
     );
 }
